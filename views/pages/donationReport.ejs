@@ -1,0 +1,623 @@
+<%- include('../partials/header'); -%>
+        <div id="page-wrapper">
+            <div id="page-inner">
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="page-header">
+                           All Donations <small> - <span id ="todayDate"></span></small>
+                        </h1>
+                    </div>
+                </div>
+                <button class="btn btn-primary" type="button" id="delAccYearBtn" data-toggle="modal" data-target="#delAccYearModal" style="float: right;"><span class="glyphicon glyphicon-trash"></span> Delete Accounting Year </button> &emsp;
+                <button class="btn btn-primary" type="button" id="addNewAccYearBtn" data-toggle="modal" data-target="#addNewAccYearModal" style="float: right;"><span class="glyphicon glyphicon-plus-sign"></span> New Accounting Year </button>                               
+                <br><br>
+                <div class="row">
+                    <!-- <div class="col-md-6 col-sm-6" style="margin-left: 100px; width: 300px;"> -->
+                    <div class="col-md-12 col-sm-12" style="margin-left: 265px; width: 450px;">
+
+
+                        <div class="panel panel-primary" id="dateQuery">
+                            <div class="panel-heading">
+                               ALL DONATIONS
+                            </div>
+                            <div class="panel-body">  
+                              <form class="form-horizontal" action="#" id="reportFrom">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-4" for="reportDateFrom">From : </label>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" id="reportDateFrom" placeholder="From Date" name="reportDateFrom">
+                                    </div>
+                                </div>
+
+                                <h3 style="margin: 15px 105px;">To</h3>
+
+                                <div class="form-group">
+                                  <label class="control-label col-sm-4" for=reportDateTo">To : </label>
+                                  <div class="col-sm-6">
+                                      <input type="text" class="form-control" id="reportDateTo" placeholder="To Date" name="reportDateTo">
+                                  </div>
+                              </div>
+                                    <button class="btn btn-primary" type="button" id="generate_report" style="margin-left:38%; margin-top: 10px;">Generate</button>
+                                    <!-- <a href=/generateReport" target="_blank" class="btn btn-primary" id="generate_Report" style="margin-left:38%; margin-top: 10px;">Generate</a> -->
+                            </form>
+                           </div>
+                        </div>
+                        
+                        <!-- <table class="table display table-responsive table-striped table-bordered table-hover" id="repotTable" style="font-size: 12px; width: 90em;">
+                          <thead>
+                            <tr>
+                              <th scope="col">Donation Id</th>
+                              <th scope="col">Donation Date</th>
+                              <th scope="col">Donation amount</th>
+                               <th scope="col">Amount In Words</th>
+                              <th scope="col">Donation Payment Type</th>
+                              <th scope="col">Donation Currency</th>
+                              <th scope="col">Payment Details</th>
+                              <th scope="col">Details Value</th>
+                              <th scope="col">Purpose</th>
+                              <th scope="col">Devotee Id</th>
+                            </tr>
+                          </thead>
+                          <tbody id="report_tbody">
+                            
+                          </tbody>
+                        </table> -->
+                        
+                        <!-- <a id="down_report" download="down_report" href="/files/download.xlsx" target="_blank" class="btn btn-primary" style="margin: 3em 7em;">DOWNLOAD EXCEL</a> -->
+                        <!-- <button id="down_report" type="button" class="btn btn-primary" style="margin: 3em 7em;">DOWNLOAD EXCEL</button> -->
+                    </div>
+                    
+                  </div><!-- /. ROW  1-->
+
+                  <div class="row">
+
+                    <!-- COL 2 -->
+                    <div class="col-md-12 col-sm-12" style="margin-left: 265px; width: 450px;">
+
+                      <div class="panel panel-primary" id="dateQuery2">
+                          <div class="panel-heading">
+                           DONATIONS >= Amount
+                          </div>
+                          <div class="panel-body">  
+                            <form class="form-horizontal" action="#" id="frmAboveMoney">
+                              <div class="form-group">
+                                  <label class="control-label col-sm-5" for="accYear">Accounting Year : </label>
+                                  <div class="col-sm-7">
+                                      <select name="accYear" id="accYear" name="accYear" class="form-control" >
+                                        <option value="2020-2021">April2020-March2021</option>
+                                        <option value="2020-2021">April2020-March2021</option>
+                                        <option value="2020-2021">April2020-March2021</option>
+                                      </select>
+                                  </div>
+                              </div>
+  
+                              <div class="form-group">
+                                <label class="control-label col-sm-5" for="accAmount">Amount : </label>
+                                <div class="col-sm-7">
+                                    <select name="accAmount" id="accAmount" name="accAmount" class="form-control" >
+                                      <option value="10000">>=10000</option>
+                                      <option value="25000">>=25000</option>
+                                      <option value="50000">>=50000</option>
+                                      <option value="100000">>=100000</option>
+                                    </select>
+                                </div>
+                            </div>
+                                  <button class="btn btn-primary" type="button" id="gen_aboveMoney" style="margin-left:38%; margin-top: 10px;">Generate</button>
+                                  <!-- <a href="/genReport/aboveMoney" target="_blank" class="btn btn-primary" id="generate_Report" style="margin-left:38%; margin-top: 10px;">
+                                    Generate
+                                  </a> -->
+                          </form>
+                         </div>
+                      </div>
+                    </div>
+
+                    <!-- COL 3 -->
+                    <div class="col-md-12 col-sm-12" style="margin-left: 265px; width: 450px;">
+
+                      <div class="panel panel-primary" id="dateQuery3">
+                          <div class="panel-heading">
+                             INR AND FC DONATIONS
+                          </div>
+                          <div class="panel-body">  
+                            <form class="form-horizontal" action="#" id="frmCurrency">
+                              <div class="form-group">
+                                  <label class="control-label col-sm-5" for="accYear2">Accounting Year : </label>
+                                  <div class="col-sm-7">
+                                      <select name="accYear2" id="accYear2" class="form-control" >
+                                        <option value="2020-2021">April2020-March2021</option>
+                                        <option value="2020-2021">April2020-March2021</option>
+                                        <option value="2020-2021">April2020-March2021</option>
+                                      </select>
+                                  </div>
+                              </div>
+  
+                              <div class="form-group">
+                                <label class="control-label col-sm-5" for="accCurr">Currency : </label>
+                                <div class="col-sm-7">
+                                    <select name="accCurr" id="accCurr" class="form-control" >
+                                      <option value="INR">Indian Contributions</option>
+                                      <option value="FC">Foreign Contributions</option>
+                                    </select>
+                                </div>
+                            </div>
+                                  <!-- <button class="btn btn-primary" type="button" id="generate_report" style="margin-left:38%; margin-top: 10px;">Generate</button> -->
+                                  <button class="btn btn-primary" type="button" id="genCurr" style="margin-left:38%; margin-top: 10px;">Generate</button>
+                                  <!-- <a href="/genReport/currecyReport" target="_blank" class="btn btn-primary" id="genCurr" style="margin-left:38%; margin-top: 10px;"> -->
+                                    <!-- <span class="glyphicon glyphicon-print"> Generate </span> -->
+                                    <!-- Generate
+                                  </a> -->
+                          </form>
+                         </div>
+                      </div>
+                    </div>
+
+                    <!-- COL 4 -->
+                    <div class="col-md-12 col-sm-12" style="margin-left: 265px; width: 450px;">
+
+                      <div class="panel panel-primary" id="dateQuery4">
+                          <div class="panel-heading">
+                            DONATIONS NAMEWISE
+                          </div>
+                          <div class="panel-body">  
+                            <form class="form-horizontal" action="#" id="frmNamewise">
+                              <div class="form-group">
+                                  <label class="control-label col-sm-5" for="accYear3">Accounting Year : </label>
+                                  <div class="col-sm-7">
+                                      <select name="accYear3" id="accYear3" class="form-control" >
+                                        <option value="2020-2021">April2020-March2021</option>
+                                        <option value="2020-2021">April2020-March2021</option>
+                                        <option value="2020-2021">April2020-March2021</option>
+                                      </select>
+                                  </div>
+                              </div>
+  
+                              <div class="form-group">
+                                <label class="control-label col-sm-5" for="donName">Doner's Name : </label>
+                                <div class="col-sm-7">
+                                  <input type="text" class="form-control" id="donName" placeholder="Doner's Name" name="donName">
+                                    <!-- <select name="accAmount" id="accAmount" class="form-control" >
+                                      <option value="10000">>=10000</option>
+                                      <option value="25000">>=25000</option>
+                                      <option value="50000">>=50000</option>
+                                      <option value="100000">>=10000</option>
+                                    </select> -->
+                                </div>
+                            </div>
+                                  <button class="btn btn-primary" type="button" id="genNamewise" style="margin-left:38%; margin-top: 10px;">Generate</button>
+                                  <!-- <button class="btn btn-primary" type="button" id="generate_report" style="margin-left:38%; margin-top: 10px;">Generate</button> -->
+                                  <!-- <a href="/genReport/namewise" target="_blank" class="btn btn-primary" id="genNamewise" style="margin-left:38%; margin-top: 10px;"> -->
+                                    <!-- <span class="glyphicon glyphicon-print"> Generate </span> -->
+                                    <!-- Generate -->
+                                  <!-- </a> -->
+                          </form>
+                         </div>
+                      </div>
+                    </div>
+
+                  <!-- COL 5 -->
+                  <div class="col-md-12 col-sm-12" style="margin-left: 265px; width: 450px;">
+
+                    <div class="panel panel-primary" id="dateQuery6">
+                        <div class="panel-heading">
+                           DONATIONS DEVOTEEWISE
+                        </div>
+                        <div class="panel-body">  
+                          <form class="form-horizontal" action="#" id="frmNamewise2">
+                            <div class="form-group">
+                                <label class="control-label col-sm-5" for="accYear4">Accounting Year : </label>
+                                <div class="col-sm-7">
+                                    <select name="accYear4" id="accYear4" class="form-control" >
+                                      <option value="2020-2021">April2020-March2021</option>
+                                      <option value="2020-2021">April2020-March2021</option>
+                                      <option value="2020-2021">April2020-March2021</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                              <label class="control-label col-sm-5" for="donName2">Doner's Id : </label>
+                              <div class="col-sm-7">
+                                <input type="text" class="form-control" id="donName2" placeholder="Doner's Id" name="donName2">
+                              </div>
+                          </div>
+                                <!-- <button class="btn btn-primary" type="button" id="generate_report" style="margin-left:38%; margin-top: 10px;">Generate</button> -->
+                                <button class="btn btn-primary" type="button" id="genNamewise2" style="margin-left:38%; margin-top: 10px;">Generate</button>
+                        </form>
+                       </div>
+                    </div>
+                  </div>
+
+                  <!-- COL 5 -->
+                  <div class="col-md-12 col-sm-12" style="margin-left: 265px; width: 450px;">
+
+                    <div class="panel panel-primary" id="dateQuery7">
+                        <div class="panel-heading">
+                          DEVOTEEWISE SUMTOTAL
+                        </div>
+                        <div class="panel-body">  
+                          <form class="form-horizontal" action="#" id="frmNamewise3">
+                            <div class="form-group">
+                                <label class="control-label col-sm-5" for="accYear5">Accounting Year : </label>
+                                <div class="col-sm-7">
+                                    <select name="accYear5" id="accYear5" class="form-control" >
+                                      <option value="2020-2021">April2020-March2021</option>
+                                      <option value="2020-2021">April2020-March2021</option>
+                                      <option value="2020-2021">April2020-March2021</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br><br>
+                            <!-- <div class="form-group">
+                              <label class="control-label col-sm-5" for="donName2">Doner's Id : </label>
+                              <div class="col-sm-7">
+                                <input type="text" class="form-control" id="donName2" placeholder="Doner's Name" name="donName2">
+                              </div>
+                          </div> -->
+                                <!-- <button class="btn btn-primary" type="button" id="generate_report" style="margin-left:38%; margin-top: 10px;">Generate</button> -->
+                                <button class="btn btn-primary" type="button" id="genNamewise3" style="margin-left:38%; margin-top: 10px;">Generate</button>
+                        </form>
+                       </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-12 col-sm-12" style="margin-left: 265px; width: 450px;">
+                    <div class="panel panel-primary" id="dateQuery8">
+                        <div class="panel-heading">
+                          DEVOTEEWISE WITH SUMTOTAL
+                        </div>
+                        <div class="panel-body">  
+                          <form class="form-horizontal" action="#" id="frmNamewise4">
+                            <div class="form-group">
+                                <label class="control-label col-sm-5" for="accYear6">Accounting Year : </label>
+                                <div class="col-sm-7">
+                                    <select name="accYear6" id="accYear6" class="form-control" >
+                                      <option value="2020-2021">April2020-March2021</option>
+                                      <option value="2020-2021">April2020-March2021</option>
+                                      <option value="2020-2021">April2020-March2021</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="control-label col-sm-5" for="accyMonth">Month : </label>
+                              <div class="col-sm-7">
+                                  <select name="accyMonth" id="accyMonth" class="form-control" >
+                                    <option value="01">January</option>
+                                    <option value="02">February</option>
+                                    <option value="03">March</option>
+                                    <option value="04">April</option>
+                                    <option value="05">May</option>
+                                    <option value="06">June</option>
+                                    <option value="07">July</option>
+                                    <option value="08">August</option>
+                                    <option value="09">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                  </select>
+                              </div>
+                          </div>
+
+                            <!-- <div class="form-group">
+                              <label class="control-label col-sm-5" for="donName2">Doner's Id : </label>
+                              <div class="col-sm-7">
+                                <input type="text" class="form-control" id="donName2" placeholder="Doner's Name" name="donName2">
+                              </div>
+                          </div> -->
+                                <!-- <button class="btn btn-primary" type="button" id="generate_report" style="margin-left:38%; margin-top: 10px;">Generate</button> -->
+                                <button class="btn btn-primary" type="button" id="genNamewise4" style="margin-left:38%; margin-top: 10px;">Generate</button>
+                        </form>
+                       </div>
+                    </div>
+                  </div>
+
+                </div>  <!-- /. ROW 2  -->
+            </div>
+            <!-- /. PAGE INNER  -->
+        </div>
+        <!-- /. PAGE WRAPPER  -->
+    </div>
+    <!-- /. WRAPPER  -->
+    
+     <div class="modal fade" id="addNewAccYearModal" role="dialog">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-body" id="addNewAccYearModalBody" >
+              <span><strong>Add Accounting Year</strong></span>
+                <button type="button" class="close" data-dismiss="modal">×</button> <br><br>
+                <form class="form-horizontal" action="#" id="frmaddNewAccYear">
+                    <div class="form-group">
+                        <label class="control-label col-sm-6" for="sYear">Starting Year</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="sYear" class="form-control" name="sYear" > 
+                        </div>
+                        </div>
+                        <div class="form-group">
+                        <label class="control-label col-sm-6" for="eYear">Ending Year</label>
+                        <div class="col-sm-6">
+                          <input type="text" id="eYear" class="form-control" name="eYear" > 
+                      </div>
+                    </div>
+                    <div class="form-group" style="margin-left: 65px;">
+                      <button type="button" class="btn btn-primary" id="confirmAddYear">Add</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="delAccYearModal" role="dialog">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-body" id="delAccYearModalBody" >
+              <span><strong>Delete Accounting Year</strong></span>
+                <button type="button" class="close" data-dismiss="modal">×</button> <br><br>
+                <table class="table table-responsive table-striped table-bordered table-hover" id="accyTable">
+                  <thead>
+                      <tr>
+                          <th>Accounting Year</th>
+                          <th>Delete</th>
+                      </tr>
+                  </thead>
+                  <tbody id="accyTable_tbody">
+                      
+                  </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    
+    <%- include('../partials/footer');%>
+<script>
+
+  
+
+    $(document).ready(function() {
+      // $('#repotTable').hide();
+      // $('#down_report').hide();
+      $.ajax({
+          type : 'POST',
+          url:'/genReport/getaccYears',
+          headers: {"x-access-token": localStorage.getItem('token')},
+          success: function(data){
+              if(data.success == 1 && data.failure == 0){
+                  $('#accYear').empty();
+                  $('#accYear2').empty();
+                  $('#accYear3').empty();
+                  $('#accYear4').empty();
+                  $('#accYear5').empty();
+                  $('#accYear6').empty();
+                  $.each(data.accYears, function(i, d) {
+                      // You will need to alter the below to get the right values from your json object.  Guessing that d.id / d.modelName are columns in your carModels data
+                      $('#accYear').append('<option value="' + d.accy_Name + '">' + d.accy_Name + '</option>');
+                      $('#accYear2').append('<option value="' + d.accy_Name + '">' + d.accy_Name + '</option>');
+                      $('#accYear3').append('<option value="' + d.accy_Name + '">' + d.accy_Name + '</option>');
+                      $('#accYear4').append('<option value="' + d.accy_Name + '">' + d.accy_Name + '</option>');
+                      $('#accYear5').append('<option value="' + d.accy_Name + '">' + d.accy_Name + '</option>');
+                      $('#accYear6').append('<option value="' + d.accy_Name + '">' + d.accy_Name + '</option>');
+                  });
+              }
+          }
+      });
+          $(function(){ 
+            $("#reportDateFrom").datepicker({
+                dateFormat: 'yy-mm-dd', 
+                changeMonth: true, 
+                changeYear: true,
+                yearRange: "-3:+10",
+                // maxDate:'+90d', 
+                // minDate: '-0d'
+            }); 
+            $("#reportDateTo").datepicker({
+                dateFormat: 'yy-mm-dd', 
+                changeMonth: true, 
+                changeYear: true,
+                yearRange: "-3:+10",
+                // maxDate:'+100d', 
+                // minDate: '-0d'
+            }); 
+        });             
+    
+        $('#reportDateFrom').change(function() { 
+            startDate = $(this).datepicker('getDate'); 
+            $("#reportDateTo").datepicker("option", "minDate", startDate); 
+            calcDiff();
+        });
+
+        $('#reportDateTo').change(function() { 
+            endDate = $(this).datepicker('getDate'); 
+            $("#reportDateFrom").datepicker("option", "maxDate", endDate); 
+            calcDiff();
+        });
+        function calcDiff() {
+            var date1 = $('#reportDateFrom').datepicker('getDate');
+            var date2 = $('#reportDateTo').datepicker('getDate');
+            var diff = 0;
+            if (date1 && date2) {
+            diff = Math.floor((date2.getTime() - date1.getTime()) / 86400000); 
+            }
+            $('#nodays').val(diff);
+            $('#nodays_form').val(diff);
+            $('#nodaysNew').val(diff);
+        }
+
+        $(document).on('click','#generate_report', function(e){
+            var reportDateFrom = $('#reportDateFrom').val();
+            var reportDateTo = $('#reportDateTo').val();
+            if (reportDateFrom  === '' && reportDateTo === '') {
+                toastr.error('EMPTY FIELDS');
+                return false;
+            }
+            var paramString = '?reportDateFrom='+reportDateFrom+'&reportDateTo='+reportDateTo;
+            var URL = window.location.hostname + ':' + window.location.port + '/genReport/allDons';
+            window.open('http://'+URL+paramString, '_blank', 'height=900, width=1280');
+        });
+        //   $.ajax({
+        //     type : 'POST',
+        //     url:'/donationReport/toexcel',
+        //     data : { reportDateFrom : reportDateFrom, reportDateTo : reportDateTo},
+        //     headers: {"x-access-token": localStorage.getItem('token')},
+        //     success : function(response){
+        //       if(response.success == 1 && response.failure == 0){ 
+        //         // $("down_report").attr("href","download.xlxs");
+        //         // $("down_report").attr("download","report-"+reportDateFrom+"-"+ reportDateTo);
+        //         toastr.info(response.msg); 
+        //         // window.location.href = '/files/export.xlsx';
+        //       }
+        //       if(response.success == 0 && response.failure == 1){ toastr.error(response.msg)}
+        //     }
+        // });
+        $(document).on('click','#gen_aboveMoney', function(){
+          var acy = $('#frmAboveMoney').find('select[name="accYear"]').val();
+          var amt = $('#frmAboveMoney').find('select[name="accAmount"]').val();
+          var paramString = '?acy='+acy+'&amt='+amt;
+          var URL = window.location.hostname + ':' + window.location.port + '/genReport/aboveMoney';
+          window.open('http://'+URL+paramString, 'height=900, width=700');
+        });
+
+        $(document).on('click','#genCurr', function(){
+          var acy = $('#frmCurrency').find('select[name="accYear2"]').val();
+          var acr = $('#frmCurrency').find('select[name="accCurr"]').val();
+          var paramString = '?acy='+acy+'&acr='+acr;
+          var URL = window.location.hostname + ':' + window.location.port + '/genReport/currecyReport';
+          window.open('http://'+URL+paramString, 'height=900, width=700');
+        });
+
+        $(document).on('click','#genNamewise', function(){
+          //check empty
+          //i string
+          //i exsiting devotee -> ajax to /devotee/showDevoteeDetails
+          var acy = $('#frmNamewise').find('select[name="accYear3"]').val();
+          var donName = $('#frmNamewise').find('input[name="donName"]').val();
+          var paramString = '?acy='+acy+'&donName='+donName;
+          var URL = window.location.hostname + ':' + window.location.port + '/genReport/namewise';
+          window.open('http://'+URL+paramString, 'height=900, width=700');
+        });
+        $(document).on('click','#genNamewise2', function(){
+          //check empty
+          //i number
+          //i exsiting devotee
+          var acy = $('#frmNamewise2').find('select[name="accYear4"]').val();
+          var donName = $('#frmNamewise2').find('input[name="donName2"]').val();
+          var paramString = '?acy='+acy+'&donName='+donName;
+          var URL = window.location.hostname + ':' + window.location.port + '/genReport/deovteewise';
+          window.open('http://'+URL+paramString, 'height=900, width=700');
+        });
+        $(document).on('click','#genNamewise3', function(){
+          //check empty
+          //i number
+          //i exsiting devotee
+          var acy = $('#frmNamewise3').find('select[name="accYear5"]').val();
+          // var donName = $('#frmNamewise2').find('input[name="donName2"]').val();
+          var paramString = '?acy='+acy;
+          var URL = window.location.hostname + ':' + window.location.port + '/genReport/deovteewise2';
+          window.open('http://'+URL+paramString, 'height=900, width=700');
+        });
+
+        $(document).on('click','#genNamewise4', function(){
+          //check empty
+          //i number
+          //i exsiting devotee
+          var acy = $('#frmNamewise4').find('select[name="accYear6"]').val();
+          var acm = $('#frmNamewise4').find('select[name="accyMonth"]').val();
+          var paramString = '?acy='+acy+'&acm='+acm;
+          var URL = window.location.hostname + ':' + window.location.port + '/genReport/deovteewise3';
+          window.open('http://'+URL+paramString, 'height=900, width=700');
+        });
+
+        $(document).on('click','#confirmAddYear', function(){
+            $.ajax({
+            type : 'POST',
+            url:'/genReport/addAccYears',
+            headers: {"x-access-token": localStorage.getItem('token')},
+            data : $('#frmaddNewAccYear').serialize(),
+            success: function(response){
+                if(response.success == 1 && response.failure == 0){
+                  toastr.info(response.msg);
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 2000); 
+                }
+                if(response.success == 0 && response.failure == 1){
+                    if(response.errorData == true){
+                        $.each(response.errors, function(i, item) {
+                        toastr.error(response.errors[i].msg);// alert(data[i].PageName);
+                        });
+                    }else{
+                        toastr.error(response.msg);
+                    }
+                }
+            }
+        });
+        });  
+
+        $(document).on('click','#delAccYearBtn', function(){          
+          // $('#delAccYearModal').modal('hide');
+          // $('#accyTable').remove();
+          $.ajax({
+            type : 'POST',
+            url:'/genReport/getaccYears',
+            headers: {"x-access-token": localStorage.getItem('token')},
+            success : function(response){
+                if(response.success == 1 && response.failure == 0){
+                    var tbody;
+                    $.each(response.accYears, function (key, value){                        
+                        tbody += "<tr>";
+                        tbody += "<td>"+response.accYears[key].accy_Name+"</td>";
+                        tbody += "<td><button type='button' class='btn btn-danger btn-sm deleteAccYear' data-uid='"+response.accYears[key].aacy_id+"' ><span class='glyphicon glyphicon-trash'></span></button>";
+                        tbody += "&emsp;</td>";
+                        tbody += "</tr>";
+                        
+                    });
+                    $('#accyTable').append(tbody);
+                    // $('#delAccYearModal').modal('show');
+                }
+            },
+            error: function(err){
+                console.log(err);
+            }
+        });
+        });
+
+        $(document).on('click', '.deleteAccYear', function(e){
+          var accyDelId = $(this).data('uid');
+          $.ajax({
+              url : '/genReport/deleteAccYear',
+              type : 'POST',
+              dataType : 'json',
+              headers : { "x-access-token" : localStorage.getItem('token') },
+              data : { accyDelId : accyDelId },
+              success : function(response){
+                  if(response.success == 1 && response.failure == 0){
+                      toastr.info(response.msg);
+                      // $('#delAccYearModal').modal('hide');
+                      
+                      // setTimeout(function(){window.location.reload()}, 1000);
+                      // location.reload();
+                  }
+                  if(response.success == 0 && response.failure == 1){
+                      if(response.errorData == true){
+                          $.each(response.errors, function(i, item) {
+                          toastr.error(response.errors[i].msg);// alert(data[i].PageName);
+                          });
+                      }else{
+                          toastr.error(response.msg);
+                      }
+                  }
+              },
+              error : function(){
+
+              }
+          });
+          $(this).parent().parent().remove();
+     });
+        
+});
+</script>
+
+    

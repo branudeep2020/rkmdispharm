@@ -1,0 +1,142 @@
+
+      <div class="row" style="background:#09192A;">
+          <div class="col-sm-12">
+              <div class="footer-text" style="text-align: center;">
+                  <p style="color: #ccc;">@ <span id="footer-year"></span> Copyright : <a href="#">MGHM</a></p>
+              </div>
+          </div>
+      </div>
+</body>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.25.3/moment.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" > </script>  -->
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/moment.min.js"></script>
+    <script src="js/toastr.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+    <script src="js/jquery.metisMenu.js"></script>
+    <script src="js/morris/raphael-2.1.0.min.js"></script>
+    <script src="js/morris/morris.js"></script>
+    <!-- <script src="assets/js/custom-scripts.js"></script> -->
+    <script src="js/ajax_scripts.js"></script>
+    <script src="js/dataTables/jquery.dataTables.js"></script>
+    <script src="js/dataTables/dataTables.bootstrap.js"></script>
+    <script src='js/excelexportjs.js'></script>
+    <script src='/js/ckeditor/ckeditor.js'></script>
+    <!-- <script src="/js/xlsx.full.min.js"></script>
+    <script src="/js/FileSaver.min.js"></script> -->
+    
+    <!--  NEW DEVOTEE REGISTRATION AJAX-->
+    <script>
+        $(document).ready(function() {
+            var isValid=true;
+            $('#newDevoteeForm input[type="text"], input[type="email"], textarea, select').blur(function(){ 
+                if(!$(this).val()){
+                        $(this).addClass("error");
+                        $('this').focus();
+                        isValid=false;
+                    } else{
+                        $(this).removeClass("error");
+                        isValid=true;
+                    }
+                });
+                
+            $(document).on('click','#regitserNewDevotee', function(e){
+                //console.log(isValid)
+                if(isValid == true){
+                    $.ajax({
+                    type : 'POST',
+                    url:'/devotees/insertDevoteeDetails',
+                    headers: {"x-access-token": localStorage.getItem('token')},
+                    data : $('#newDevoteeForm').serialize(),
+                    success : function(response){
+                        if(response.success == 1 && response.failure == 0){
+                            toastr.info(response.msg);
+                            window.setTimeout(function(){location.reload()},3000)
+                        }
+                        if(response.success == 0 && response.failure == 1){
+                            if(response.errorData == true){
+                                $.each(response.errors, function(i, item) {
+                                toastr.error(response.errors[i].msg);// alert(data[i].PageName);
+                                });
+                            }else{
+                                toastr.error(response.msg);
+                            }
+                        }
+                    },
+                    error: function(err){
+                        console.log(err);
+                    }
+                });
+            }else{
+                toastr.error('INVALID INPUTS.! PLEASE TRY AGAIN');
+            }
+        });
+
+        $(window).scroll(function () {
+			if ($(this).scrollTop() > 50) {
+				$('#back-to-top').fadeIn();
+			} else {
+				$('#back-to-top').fadeOut();
+			}
+        });
+        
+		$('#back-to-top').click(function () {
+			$('body,html').animate({
+				scrollTop: 0
+			}, 400);
+			return false;
+        });
+        
+        $.ajax({
+          type : 'POST',
+          url:'/devotees/allTitles',
+          headers: {"x-access-token": localStorage.getItem('token')},
+          success: function(data){
+              if(data.success == 1 && data.failure == 0){
+                  $('#title').empty();
+                  $.each(data.titles, function(i, d) {
+                      // You will need to alter the below to get the right values from your json object.  Guessing that d.id / d.modelName are columns in your carModels data
+                      $('#title').append('<option value="' + d.title + '">' + d.title + '</option>');
+                  });
+              }
+          }
+      });
+
+    });
+
+    function printEveryDay(divId) {
+        // var divContents = document.getElementById("todayBookings").innerHTML;
+        var divContents = document.getElementById(divId).innerHTML;
+        var printWindow = window.open('', '', 'height=900,width=900');
+        printWindow.document.write('<html><head><title>Bokings Today</title>');
+        printWindow.document.write('</head><body>');
+        printWindow.document.write(divContents);
+        printWindow.document.write('</body></html>');
+        //printWindow.document.close();
+        printWindow.print();
+    }
+    </script>
+</html>
+
+
+<!-- <script>
+    $(document).ready(function(){
+        $.ajax({
+          type : 'POST',
+          url:'/donation',
+          headers: {"x-access-token": localStorage.getItem('token')},
+          success : function(response){
+  
+          },
+          error : function(response){
+            
+          }
+        });
+    });
+  </script> -->

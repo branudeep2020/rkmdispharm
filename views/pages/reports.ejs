@@ -1,0 +1,697 @@
+<%- include('../partials/header'); -%>
+        <div id="page-wrapper">
+            <div id="page-inner">
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="page-header">
+                           Reports <small> - <span id ="todayDate"></span> [ <span id ="todayTime"></span> ]</small>
+                        </h1>
+                    </div>
+                </div>
+
+                      
+                <div class="row" id="reportRow1">
+
+                   <div class="col-md-6 col-sm-6">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                               Report 1
+                            </div>
+                            <div class="panel-body"> 
+                                <form name="form" id="search_booked_rooms_new">                               
+                                <div class="form-group col-md-12">
+                                        <label for="cin">Check-In</label>
+                                        <input type="text" name="cin" id="cinDate" class="form-control"> 
+                                </div>
+                                <h1 class="col-md-12" style="padding-left: 45%;">&emsp;</h1>
+                                <div class="form-group col-md-12">
+                                        <label for="cout">Check-Out</label> 
+                                        <input type="text" name="cout" id="coutDate" class="form-control"> 
+                                </div>
+                                <input type="hidden" name="days" id="nodays_form">                                
+                                <div class="form-group col-md-12" style="padding-top: 25px; padding-left: 45%">
+                                        <button class="btn btn-primary" type="button" id="submit_search_booked_rooms_new">Search</button>
+                                </div>
+                                </form>
+                        </div>
+                            
+                        </div>
+                </div>
+                    
+
+                <div class="col-md-6 col-sm-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            Search Bookings
+                        </div>
+                        <div class="panel-body">  
+                            <form name="form" method="post" id="search_booking_form">                               
+                                <div class="form-group col-md-12">
+                                    <label>Email</label>
+                                    <input name="queryEmail" id="queryEmail" type ="text" class="form-control">
+                                            
+                                </div>
+                                <h1 class="col-md-12" style="padding-left: 45%;">OR</h1>
+                                <div class="form-group col-md-12">
+                                    <label>Phone</label>
+                                    <input name="queryPhone" id="queryPhone" type ="text" class="form-control">
+                                </div>
+                                <div class="form-group col-md-12" style="padding-top: 25px; padding-left: 45%">
+                                    <button class="btn btn-primary" type="button" id="search_booking_submit">Search</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                    </div>
+                </div>
+                    
+                </div>
+
+                <div class="row" id="bookingDetails">
+                    <div class="col-md-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">Booking Details</div>
+                            <div class="panel-body">
+                                <h3 id="date_brief" class="text-center" style="margin : 10px;"></h3>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered"  id="todayBookings" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Room No.</th>
+                                                <th>Name</th>
+                                                <th>M-F-C</th>
+                                                <th>No of P</th>
+                                                <th>Contact No.</th>
+                                                <th>Address</th>
+                                                <th>Arrival</th>
+                                                <th>Departure</th>
+                                                <th>Action</th>
+                                                <!-- <th colspan="2">Action</th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody id="table_data_new">
+                                          <td colspan="8"><small><b>No Such Bookings Found</b></small></td>
+                                        <!-- <tr>
+                                                <td>G001</td>
+                                                <td>Mr. Narayan Giri</td>
+                                                <td>3</td>
+                                                <td>9836583626</td>
+                                                <td>London</td>
+                                                <td>16.3.2020</td>
+                                                <td>18.3.2020</td>
+                                                <td><span class="label label-success">Booked</span></td>
+                                                <td>
+                                                    <button type="button" data-toggle="modal" data-target="#view" data-uid="1" class="view btn btn-primary btn-sm"><span class="glyphicon glyphicon-eye-open"></span></button>
+                                                    <button type="button" data-toggle="modal" data-target="#edit" data-uid="1" class="update btn btn-success btn-sm"><span class="glyphicon glyphicon-pencil"></span></button>
+                                                    <button type="button" data-toggle="modal" data-target="#delete" data-uid="1" class="delete btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></button>
+                                                </td>
+                                            </tr> -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <a href="/bookedrooms">Back</a>
+                                <button type="button" data-toggle="modal" data-target="#newBookingModal" class="btn btn-primary btn-sm">Book a room</button>
+                            </div>
+                          </div>
+                          
+                    </div> 
+                </div>
+               
+                <!-- /. ROW  -->
+				
+            </div>
+            <!-- /. PAGE INNER  -->
+        </div>
+        <!-- /. PAGE WRAPPER  -->
+    </div>
+    <!-- /. WRAPPER  -->
+    
+<%- include('../partials/footer');%>
+
+
+
+
+
+
+
+<!-- viewDetailsModal -->
+<div class="modal fade" id="viewDetailsModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body" id="viewDetailsModalBody" ></div> 
+        </div>
+    </div>
+</div>
+
+<!--editDetailsModal-->
+<div id="editDetailsModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-body" id="editDetailsModalBody">
+            <span><strong>Update Guest Details</strong></span>
+            <button type="button" class="close" data-dismiss="modal">×</button> <br><br>
+            <form class="form-horizontal" action="#" id="updateBookingsForm">
+                <div class="form-group">
+                  <label class="control-label col-sm-6" for="updatetitle">Title:</label>
+                  <div class="col-sm-6">
+                      <select name="title" id="updatetitle" class="form-control" ><option value="Mr.">Mr.</option><option value="Mrs.">Mrs.</option></select>
+                  </div>
+              </div> 
+              <div class="form-group">
+                  <label class="control-label col-sm-6" for="updatefName">First Name:</label>
+                  <div class="col-sm-6">
+                      <input type="text" class="form-control" id="updatefName" placeholder="Enter name" name="fName">
+                  </div>
+              </div>
+              <div class="form-group">
+                  <label class="control-label col-sm-6" for="updatelName">Last Name:</label>
+                  <div class="col-sm-6">
+                      <input type="text" class="form-control" id="updatelName" placeholder="Enter name" name="lName">
+                  </div>
+              </div>
+                <div class="form-group">
+                  <label class="control-label col-sm-6" for="updateEmail">Email:</label>
+                  <div class="col-sm-6">
+                    <input type="email" class="form-control" id="updateEmail" placeholder="Enter email" name="email">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-sm-6" for="updatePhone">Contact No:</label>
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control" id="updatePhone" placeholder="Enter contact no." name="contactNo">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-sm-6" for="updateaddress">Address :</label>
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control" id="updateaddress" placeholder="Enter contact no." name="address">
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-6" for="updatemale">Male:</label>
+                    <div class="col-sm-6">
+                        <input type="number" min="0" max="5" class="form-control" id="updatemale" placeholder="Male" name="male">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-6" for="updatefemale">Female:</label>
+                    <div class="col-sm-6">
+                        <input type="number" min="0" max="5" class="form-control" id="updatefemale" placeholder="Female" name="female">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-6" for="updatechildren">Children:</label>
+                    <div class="col-sm-6">
+                        <input type="number" min="0" max="5" class="form-control" id="updatechildren" placeholder="Children" name="children">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-6" for="updatepersons">No of Persons:</label>
+                    <div class="col-sm-6">
+                        <input type="text"class="form-control" id="updatepersons" placeholder="No Of Persons" name="persons" readonly>
+                    </div>
+                </div>
+                <input type="hidden" id="guest_id_hidden" name="guest_id_hidden">
+                <div class="form-group" style="margin-left: 85px;">
+                    <button type="button" class="btn btn-primary" id="upateChangesButton">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!--deleteModal-->
+<div id="deleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 class="modal-title">Delete Data</h4>
+            </div>
+            <div class="modal-body">
+                <strong>Are you sure you want to delete this data?</strong>
+                <form id="guest_delete_form">
+                <input type="hidden" id="guest_id_delete" name="guest_id_delete">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="deleteBooking" class="btn btn-danger" data-dismiss="modal">Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="newBookingModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+        <div class="modal-body" id="confirmBookingModal">
+            <span><strong>Enter Guest Details</strong></span>
+            <button type="button" class="close" data-dismiss="modal">×</button> <br><br>
+            <form class="form-horizontal" action="#" id="newBookingForm">
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="newCin">Check-In</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="newCin" class="form-control" name="cin" > 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="newCout">Check-Out</label> 
+                    <div class="col-sm-8">
+                        <input type="text" id="newCout" class="form-control" name="cout">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="title">Title:</label>
+                    <div class="col-sm-8">
+                        <select name="title" id="title" class="form-control" ><option value="Mr.">Mr.</option><option value="Mrs.">Mrs.</option></select>
+                    </div>
+                </div> 
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="fName">First Name:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="fName" placeholder="Enter name" name="fName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="lName">Last Name:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="lName" placeholder="Enter name" name="lName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="email">Email:</label>
+                    <div class="col-sm-8">
+                    <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="phone">Contact:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="phone" placeholder="Enter Contact No" name="phone">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="country">Address:</label>
+                    <div class="col-sm-8">
+                        <textarea name="address" id="address" style="resize: none;" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="male">Male:</label>
+                    <div class="col-sm-8">
+                        <input type="number" min="0" max="5" class="form-control" id="male" placeholder="Male" name="male">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="female">Female:</label>
+                    <div class="col-sm-8">
+                        <input type="number" min="0" max="5" class="form-control" id="female" placeholder="Female" name="female">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="children">Children:</label>
+                    <div class="col-sm-8">
+                        <input type="number" min="0" max="5" class="form-control" id="children" placeholder="Children" name="children">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="persons">No of Persons:</label>
+                    <div class="col-sm-8">
+                        <input type="text"class="form-control" id="persons" placeholder="No of Persons" name="persons" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="room">Room :</label>
+                    <div class="col-sm-8">
+                        <select name="room_id" id="room_id" class="form-control" ></select>
+                    </div>
+                </div> 
+                <input type="hidden" class="form-control" id="nodaysNew" name="nodays">
+                <div class="form-group" style="margin-left: 65px;">
+                    <button type="button" class="btn btn-primary" id="confirmBooking">Confirm Booking</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+$(document).ready(function(){
+
+    $(document).on('click', '#submit_search_booked_rooms_new', function(e){
+        var querycin = $('#cinDate').val();
+        var querycout = $('#coutDate').val();
+        var nd1 = moment(querycin).subtract(15, "days").format("YYYY-MM-DD");
+        var nd2 = moment(querycout).add(15, "days").format("YYYY-MM-DD");
+            if( querycin != '' || querycin !='' ){
+                $.ajax({
+                    type : 'POST',
+                    url:'/bookedrooms/getRoomsByDate',
+                    headers: {"x-access-token": localStorage.getItem('token')},
+                    data : { cin : nd1, cout : nd2},
+                    success : function(response){
+                        if(response.success == 1 && response.failure == 0){
+                            var tbody;
+                            var myDate1, myDate2;
+                            if( response.data== true ) { $('#table_data_new').html(''); }
+                            //$('#table_data_new').html('');
+                            $.each(response.bookings, function (key, value){
+                                //myDate1 =  moment(response.bookings[key].cin).format("YYYY-MM-DD HH:mm:ss");
+                                myDate1 =  moment(response.bookings[key].cin).format("DD-MM-YYYY");
+                                myDate2 =  moment(response.bookings[key].cout).format("DD-MM-YYYY");
+                                tbody += "<tr>";
+                                tbody += "<td>"+response.bookings[key].roomName+"</td>";
+                                tbody += "<td>"+response.bookings[key].title+ " " + response.bookings[key].fName+ " " +  " " + response.bookings[key].lName+ " " + "</td>";
+                                tbody += "<td>"+response.bookings[key].mfc+"</td>";
+                                tbody += "<td>"+response.bookings[key].persons+"</td>";
+                                tbody += "<td>"+response.bookings[key].phone+"</td>";
+                                tbody += "<td>"+response.bookings[key].address+"</td>";
+                                tbody += "<td>"+myDate1+"</td>";
+                                tbody += "<td>"+myDate2+"</td>";
+                                // tbody += "<td><span class='label label-success'>Booked</span></td>";
+                                tbody += "<td>";
+                                tbody += "<button type='button' class='view btn btn-primary btn-sm viewDetails' data-uid='"+response.bookings[key].guest_id+"' ><span class='glyphicon glyphicon-eye-open'></span></button> &nbsp;";
+                                tbody += "<button type='button' class='update btn btn-success btn-sm editDetails' data-uid='"+response.bookings[key].guest_id+"' ><span class='glyphicon glyphicon-pencil'></span></button> &nbsp;";
+                                tbody += "<button type='button' class='delete btn btn-danger btn-sm deleteDetails' data-uid='"+response.bookings[key].guest_id+"' ><span class='glyphicon glyphicon-trash'></span></button>";
+                                tbody += "</td>";
+                                tbody += "</tr>";
+                            });
+                            $('#queryRow').hide();
+                            $('#table_data_new').append(tbody);
+                            var samp = "Showing Bookings From <br/>" + moment(response.dateFrom).format('DD.MM.YYYY') + " -  " + moment(response.dateTo).format('DD.MM.YYYY') ;
+                            toastr.info(samp);
+                            $('#bookingDetails').show();
+                            $('#date_biref_table').show();
+                            //console.log(response.bookings[]);
+                            //tbody += "<button type='button' data-toggle='modal' data-target='#view' data-uid='"+response.bookings[key].guest_id+"' class='view btn btn-primary btn-sm'><span class='glyphicon glyphicon-eye-open'></span></button>";
+                        }
+                    },
+                    error: function(err){
+                        console.log(err);
+                    }
+                });
+            }else{
+                toastr.error('INVALID INPUTS.! PLEASE TRY AGAIN');
+            }
+    });
+
+    $(document).on('click', '#search_booking_submit', function(e){
+        //e.preventDefault();
+        var queryEmail = $('#queryEmail').val();
+        var queryPhone = $('#queryPhone').val();
+        if( queryEmail != '' || queryPhone !='' ){
+            $.ajax({
+            type : 'POST',
+            url:'/bookedrooms',
+            headers: {"x-access-token": localStorage.getItem('token')},
+            data : $('#search_booking_form').serialize(),
+            success : function(response){
+                if(response.success == 1 && response.failure == 0){
+                    var tbody;
+                    var myDate1, myDate2;
+                    if( response.data== true ) { $('#table_data_new').html(''); }
+                    //$('#table_data_new').html('');
+                    $.each(response.bookings, function (key, value){
+                        //myDate1 =  moment(response.bookings[key].cin).format("YYYY-MM-DD HH:mm:ss");
+                        myDate1 =  moment(response.bookings[key].cin).format("DD-MM-YYYY");
+                        myDate2 =  moment(response.bookings[key].cout).format("DD-MM-YYYY");
+                        tbody += "<tr>";
+                        tbody += "<td>"+response.bookings[key].roomName+"</td>";
+                        tbody += "<td>"+response.bookings[key].title+ " " + response.bookings[key].fName+ " " +  " " + response.bookings[key].lName+ " " + "</td>";
+                        tbody += "<td>"+response.bookings[key].mfc+"</td>";
+                        tbody += "<td>"+response.bookings[key].persons+"</td>";
+                        tbody += "<td>"+response.bookings[key].phone+"</td>";
+                        tbody += "<td>"+response.bookings[key].address+"</td>";
+                        tbody += "<td>"+myDate1+"</td>";
+                        tbody += "<td>"+myDate2+"</td>";
+                        // tbody += "<td><span class='label label-success'>Booked</span></td>";
+                        tbody += "<td>";
+                        tbody += "<button type='button' class='view btn btn-primary btn-sm viewDetails' data-uid='"+response.bookings[key].guest_id+"' ><span class='glyphicon glyphicon-eye-open'></span></button> &nbsp;";
+                        tbody += "<button type='button' class='update btn btn-success btn-sm editDetails' data-uid='"+response.bookings[key].guest_id+"' ><span class='glyphicon glyphicon-pencil'></span></button> &nbsp;";
+                        tbody += "<button type='button' class='delete btn btn-danger btn-sm deleteDetails' data-uid='"+response.bookings[key].guest_id+"' ><span class='glyphicon glyphicon-trash'></span></button>";
+                        tbody += "</td>";
+                        tbody += "</tr>";
+                    });
+                    $('#queryRow').hide();
+                    $('#table_data_new').append(tbody);
+                    $('#bookingDetails').show();
+                    //console.log(response.bookings[]);
+                    //tbody += "<button type='button' data-toggle='modal' data-target='#view' data-uid='"+response.bookings[key].guest_id+"' class='view btn btn-primary btn-sm'><span class='glyphicon glyphicon-eye-open'></span></button>";
+                }
+            },
+            error: function(err){
+                console.log(err);
+            }
+        });
+    }else{
+        toastr.error('INVALID INPUTS.! PLEASE TRY AGAIN');
+    }
+    });
+
+
+    $('#children').blur(function(){
+        var m = $('#male').val();
+        var f = $('#female').val();
+        var c = $('#children').val();
+        var nop = parseInt(m, 10) + parseInt(f, 10) + parseInt(c, 10);
+        $('#persons').val(nop);
+    });
+
+    $('#room_id').focus(function(e){
+        $.ajax({
+            type : 'POST',
+            url:'/roombook/getRooms',
+            headers: {"x-access-token": localStorage.getItem('token')},
+            success: function(data){
+                if(data.success == 1 && data.failure == 0){
+                    $('#room_id').empty();
+                    $.each(data.rooms, function(i, d) {
+                        $('#room_id').append('<option value="' + d.room_id + '">' + 'Name : ' +d.roomName + ' ----- Capacity : '+ d.roomCapacity + '</option>');
+                    });
+                }
+            }
+        });
+    });
+
+    $(function() { 
+        $("#newCin").datepicker({
+            dateFormat: 'yy-mm-dd', 
+            changeMonth: true, 
+            changeYear: false,
+            maxDate:'+90d', 
+            minDate: '-0d'
+        }); 
+        $("#newCout").datepicker({
+            dateFormat: 'yy-mm-dd', 
+            changeMonth: true, 
+            changeYear: false,
+            maxDate:'+100d', 
+            minDate: '-0d'
+        }); 
+    });             
+    
+    $('#newCin').change(function() { 
+        startDate = $(this).datepicker('getDate'); 
+        $("#newCout").datepicker("option", "minDate", startDate); 
+        calcDiff();
+    });
+
+    $('#newCout').change(function() { 
+        endDate = $(this).datepicker('getDate'); 
+        $("#newCin").datepicker("option", "maxDate", endDate); 
+        calcDiff();
+    });
+    function calcDiff() {
+        var date1 = $('#newCin').datepicker('getDate');
+        var date2 = $('#newCout').datepicker('getDate');
+        var diff = 0;
+        if (date1 && date2) {
+        diff = Math.floor((date2.getTime() - date1.getTime()) / 86400000); 
+        }
+        $('#nodays').val(diff);
+        $('#nodays_form').val(diff);
+        $('#nodaysNew').val(diff);
+    }
+
+    $(document).on('click', '.newBooking', function(){
+        $('#newBookingModal').modal('show');
+        // var room_id = $(this).data('uid');
+        // $('#room_id').val(room_id)
+    });
+
+    $(document).on('click', '#confirmBooking', function(){
+        var data = $('#newBookingForm').serializeArray();
+        // data.push({name: 'cin', value: cin_date_new_book});
+        // data.push({name: 'cout', value: cout_date_new_book});
+        $.ajax({
+            type : 'POST',
+            url : '/roombook',
+            headers : { "x-access-token" : localStorage.getItem('token') },
+            data : data,
+            success : function(response){
+                if(response.success == 1 && response.failure == 0){
+                    $('#confirmBookingModal').modal('hide');
+                    toastr.info(response.msg);
+                    setTimeout(function(){location.reload()}, 1000);
+                }
+            },
+            error : function(){
+
+            }
+        });
+    });
+
+    $(document).on('click', '.viewDetails', function(e){
+      //e.preventDefault();
+      // $target = $(e.target);
+      // const guest_id = $target.attr('data-uid');  
+      var guest_id = $(this).data('uid');
+      var modalHtml = '';
+      var name = '';
+      var myDate3, myDate4;
+      $('#viewDetailsModalBody').html('');
+      $.ajax({
+          url : '/dashboard/showDetails',
+          type : 'POST',
+          headers : { "x-access-token" : localStorage.getItem('token') },
+          data : { guest_id : guest_id },
+          success : function(response){
+              if(response.success == 1 & response.failure == 0){
+                  modalHtml += "<button type='button' class='close' data-dismiss='modal'>×</button> <br><br>";
+                  modalHtml += "<table class='table table-striped table-bordered'><tbody>";   
+                  modalHtml += "<tr><th colspan='2'>Guest Details</th></tr>";
+                  modalHtml += "<tr><th>Room No</th><td>"+ response.booking_details[0].roomName+"</td></tr>";
+                  name = response.booking_details[0].title + ' ' + response.booking_details[0].fName + ' ' + response.booking_details[0].lName ;
+                  modalHtml += "<tr><th>Name</th><td>"+ name +"</td></tr>";
+                  modalHtml += "<tr><th>Email</th><td>"+ response.booking_details[0].email+"</td></tr>";
+                  modalHtml += "<tr><th>Contact No</th><td>"+ response.booking_details[0].phone+"</td></tr>";
+                  modalHtml += "<tr><th>Address</th><td>"+ response.booking_details[0].address+"</td></tr>";
+                  modalHtml += "<tr><th>No of Persons</th><td>"+ response.booking_details[0].persons+"</td></tr>";
+                  modalHtml += "<tr><th>Male-Female-Children</th><td>"+ response.booking_details[0].mfc+"</td></tr>"; 
+                  modalHtml += "<tr><th>No of Days</th><td>"+ response.booking_details[0].nodays+"</td></tr>"; 
+                  myDate3 = moment(response.booking_details[0].cin).format('DD-MM-YYYY');
+                  modalHtml += "<tr><th>Check In Date</th><td>"+ myDate3 +"</td></tr>";
+                  myDate4 = moment(response.booking_details[0].cout).format('DD-MM-YYYY');
+                  modalHtml += "<tr><th>Check Out Date</th><td>"+ myDate4 +"</td></tr>";
+                  modalHtml += "</tbody></table>";
+                  $('#viewDetailsModalBody').html(modalHtml);
+                  $('#viewDetailsModal').modal('show');
+              }else{
+                  modalHtml += "<tr><td colspan='2'>No Details Found</td></tr>";
+                  $('#viewDetailsModalBody').html(modalHtml);
+                  $('#viewDetailsModal').modal('show');
+              }
+          },
+          error: function(err){
+              console.log(err);
+          }
+      });
+  });
+
+  $(document).on('click', '.editDetails', function(e){
+      var guest_id = $(this).data('uid');
+      $.ajax({
+          url : '/dashboard/showDetails',
+          type : 'POST',
+          headers : { "x-access-token" : localStorage.getItem('token') },
+          data : { guest_id : guest_id },
+          success : function(response){
+              if(response.success == 1 & response.failure == 0){
+                  $('#updatetitle').val(response.booking_details[0].title);
+                  $('#updatefName').val(response.booking_details[0].fName);
+                  $('#updatelName').val(response.booking_details[0].lName);
+                  $('#updateEmail').val(response.booking_details[0].email);
+                  $('#updatePhone').val(response.booking_details[0].phone);
+                  $('#updateRoomNo').val(response.booking_details[0].roomName);
+                  $('#updateaddress').val(response.booking_details[0].address);
+                  var temp1 = response.booking_details[0].mfc;
+                  var tempRes = temp1.split('-');
+                  $('#updatemale').val(tempRes[0]);
+                  $('#updatefemale').val(tempRes[1]);
+                  $('#updatechildren').val(tempRes[2]);
+                  $('#guest_id_hidden').val(response.booking_details[0].guest_id);
+                  var m = $('#updatemale').val();
+                  var f = $('#updatefemale').val();
+                  var c = $('#updatechildren').val();
+                  var nop = parseInt(m, 10) + parseInt(f, 10) + parseInt(c, 10);
+                  $('#updatepersons').val(nop);
+                  $('#editDetailsModal').modal('show');
+              }
+          },
+          error : function(){
+
+          }
+      });
+  });
+
+  $('#updatechildren, #updatemale, #updatefemale').blur(function(){
+        var m = $('#updatemale').val();
+        var f = $('#updatefemale').val();
+        var c = $('#updatechildren').val();
+        var nop = parseInt(m, 10) + parseInt(f, 10) + parseInt(c, 10);
+        $('#updatepersons').val(nop);
+    });
+
+  
+    $(document).on('click', '#upateChangesButton', function(e){
+      //VALIDATE THE INPUT BOXES
+      $.ajax({
+          url : '/dashboard/upodateDetails',
+          type : 'POST',
+          dataType : 'json',
+          headers : { "x-access-token" : localStorage.getItem('token') },
+          data : $('#updateBookingsForm').serialize(),
+          success : function(response){
+              if(response.success == 1 && response.failure == 0){
+                  toastr.info(response.msg);
+                  $('#editDetailsModal').modal('hide');
+                  setTimeout( function() { location.reload() }, 1000 );
+              }
+          },
+          error : function(){
+
+          }
+      });
+  });
+
+  $(document).on('click', '.deleteDetails', function(e){
+    $('#deleteModal').modal('show');
+    var guest_id = $(this).data('uid');
+    $('#guest_id_delete').val(guest_id);
+  });
+
+  $(document).on('click', '#deleteBooking', function(e){
+      $.ajax({
+          url : '/dashboard/deleteBooking',
+          type : 'POST',
+          dataType : 'json',
+          headers : { "x-access-token" : localStorage.getItem('token') },
+          data : $('#guest_delete_form').serialize(),
+          success : function(response){
+              if(response.success == 1 && response.failure == 0){
+                  //toastr.info('BOOKING DELETED SUCCESSFULLY');
+                  toastr.info(response.msg);
+                  $('#deleteModal').modal('hide');
+                  setTimeout(function(){ location.reload()}, 1000);
+              }
+          },
+          error : function(){
+
+          }
+      });
+  });
+
+
+});
+</script>

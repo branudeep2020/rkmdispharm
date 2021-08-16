@@ -1,0 +1,666 @@
+<%- include('../partials/header'); -%>
+        <div id="page-wrapper">
+            <div id="page-inner">
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="page-header">
+                           Donations <small> - <span id ="todayDate"></span> </small> 
+                           <!-- <button type="button" id="AllDonationHistory" name="AllDonationHistory" class="btn btn-primary btn-sm">All Donnation History</button> -->
+                        </h1>
+                    </div>
+                </div>
+                                              
+                <div class="row">
+                    <div class="col-md-12">
+                        <form class="form-inline" action="#" id="frmDonationListing" style="float: right;">
+                            <div class="form-group" >
+                                <label class="control-label col-sm-5" for="showAccYears">Accounting Year : </label>
+                                <div class="col-sm-7">
+                                    <select name="showAccYears" id="showAccYears" class="form-control">
+                                      <!-- <option value="2020-2021">April2020-March2021</option>
+                                      <option value="2020-2021">April2020-March2021</option>
+                                      <option value="2020-2021">April2020-March2021</option> -->
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" type="button" id="genfrmDonationListing">Show</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Image loader -->
+                <div id='loader' style='display: none;'>
+                    <img src='/img/loader/loader-1.gif' width='250px' height='250px' style="margin-top: 220px; margin-left: 680px;">
+                </div>
+                <!-- Image loader -->
+
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="panel panel-primary" id="donation_panel">
+                            <div class="panel-heading">
+                                Donation Records
+                                <button class="btn btn-info" type="button" id="printRange" data-toggle="modal" data-target="#printRangeModal" style="float: right;"><span class="glyphicon glyphicon-plus-print"></span> Print Range </button>
+                            </div>
+                            <div class="panel-body">  
+                                    <table class="table display table-responsive table-striped table-bordered table-hover" id="dataTables_donations">
+                                        <thead>
+                                            <tr>
+                                                <th>Donation ID</th>
+                                                <th>Devotee ID</th>
+                                                <th>Date</th>
+                                                <th>Amount</th>
+                                                <th>Payment Type</th>
+                                                <!-- <th>Details</th> -->
+                                                <th>Purpose</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="donations_tbody">
+                                            
+                                        </tbody>
+                                    </table>
+                                <!-- </div> -->
+                           </div>
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+
+                
+               
+                <!-- /. ROW  -->
+				
+            </div>
+            <!-- /. PAGE INNER  -->
+        </div>
+        <!-- /. PAGE WRAPPER  -->
+    </div>
+    <!-- /. WRAPPER  -->
+    
+    <div class="modal fade" id="viewDonationDetailsModal" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body" id="viewDonationDetailsModalBody" ></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="deleteDonationDetailsModal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">×</button>
+              <h4 class="modal-title">Delete Data</h4>
+            </div>
+            <div class="modal-body">
+              <strong>Are you sure you want to delete this donation?</strong>
+              <form id="donation_delete_form">
+                <input type="hidden" id="donation_id_delete" name="donation_id_delete">
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="deleteDonationButton" class="btn btn-danger" data-dismiss="modal">Delete</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="modal fade" id="editDonationDetailsModal" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body" id="editDonationDetailsModalBody" >
+
+
+                <form class="form-horizontal" action="#" id="editDonationForm">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="donation_purpose">Donation Purpose :</label>
+                        <div class="col-sm-8">
+                            <select name="donation_purpose" id="donation_purpose" class="form-control" ></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="trans_date">Transaction Date : </label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="trans_date" placeholder="Enter Transaction Date" name="trans_date">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="donation_amount">Donation Amount:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="donation_amount" onkeyup="donation_amount_in_words.value=numberToWords(this.value)" placeholder="Enter Donation Amount" name="donation_amount" > 
+                            <!-- onkeyup="donation_amount_in_words.value=numberToWords(this.value)"> -->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="donation_amount_in_words">Amount In Words :</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="donation_amount_in_words" placeholder="Enter Donation Amount In Words" name="donation_amount_in_words">
+                        </div>
+                    </div>
+                    <!-- <div class="form-group">
+                        <label class="control-label col-sm-4" for="donation_payment_type">Donation Payment Type :</label>
+                        <div class="col-sm-8">
+                            <select name="donation_payment_type" id="donation_payment_type" class="form-control" >
+                                <option value="CHEQUE">CHEQUE</option>
+                                <option value="DRAFT">DRAFT</option>
+                                <option value="ONLINE">ONLINE</option>
+                                <option value="CASH">CASH</option>
+                                <option value="MO">MONEY ORDER</option>
+                            </select>
+                        </div>
+                    </div> -->
+                    <div class="form-group" id="dpt_form_grp">
+                        <label class="control-label col-sm-4" for="donation_payment_details_value" id="label_donation_payment_type">asdasdasdasd </label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="donation_payment_details_value" placeholder="Enter Donation Payemt Details Value" name="donation_payment_details_value">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="donation_currency">Donation Currency : </label>
+                        <div class="col-sm-8">
+                            <select name="donation_currency" id="donation_currency" class="form-control" >
+                                <option value="INR">Indian Contributions</option>
+                                <option value="FC">Foreign Contributions</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="devotee_id">Devotee Id :</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="devotee_id" placeholder="Devotee Id" name="devotee_id">
+                        </div>
+                    </div>
+                    <!-- <div class="form-group">
+                        <label class="control-label col-sm-4" for="donation_currency">Donation Currency : </label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="donation_currency" placeholder="Enter Donation Currency" name="donation_currency" value="INR">
+                        </div>
+                    </div> -->
+                    <!-- <input type="hidden" class="form-control" id="received_by"name="received_by">
+                    <input type="hidden" class="form-control" id="donation_payment_details"name="donation_payment_details">
+                    <input type="hidden" class="form-control" id="new_donation_devotee_id"name="devotee_id"> -->
+                    <input type="hidden" class="form-control" id="editId" name="editId">
+                    <div class="form-group" style="margin-left: 35%;">
+                        <button type="button" class="btn btn-primary" id="btnEditDonation">Save Donation</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="printRangeModal" role="dialog">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-body" id="printRangeModalBody" >
+              <span><strong>Print Range</strong></span>
+                <button type="button" class="close" data-dismiss="modal">×</button> <br><br>
+                <form class="form-horizontal" action="#" id="frmRange">
+                    <div class="form-group">
+                        <label class="control-label col-sm-6" for="sReceipt">Starting Receipt</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="sReceipt" class="form-control" name="sReceipt" > 
+                        </div>
+                        </div>
+                        <div class="form-group">
+                        <label class="control-label col-sm-6" for="eReceipt">Ending Receipt</label>
+                        <div class="col-sm-6">
+                          <input type="text" id="eReceipt" class="form-control" name="eReceipt" > 
+                      </div>
+                    </div>
+                    <div class="form-group" style="margin-left: 65px;">
+                      <button type="button" class="btn btn-primary" id="confirmRange">Generate</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    <%- include('../partials/footer');%>
+<script>
+
+  
+
+    $(document).ready(function() {
+        //dataTables_donations
+        $.ajax({
+        type : 'POST',
+        url:'/donation',
+        headers: {"x-access-token": localStorage.getItem('token')},
+        beforeSend: function(){
+            // Show image container
+            // $("#dataTables_donations tr").remove();
+            $("#donation_panel").hide();
+            $("#loader").show();
+        },
+        success : function(response){
+            if(response.success == 1 && response.failure == 0){
+                var tbody;
+                var myDate1, myDate2;
+                $.each(response.donations, function (key, value){
+                    var temppDD = moment(response.donations[key].donation_date).format('D-MM-YYYY');
+                    tbody += "<tr>";
+                    tbody += "<td>E000"+response.donations[key].donation_id+"</td>";
+                    // tbody += "<td>"+response.donations[key].title+ " " + response.donations[key].fName+ " " +  " " + response.donations[key].lName+ " " + "</td>";
+                    tbody += "<td>"+response.donations[key].devotee_id+"</td>";
+                    tbody += "<td>"+temppDD+"</td>";
+                    tbody += "<td>"+response.donations[key].donation_amount +"</td>";
+                    tbody += "<td>"+response.donations[key].donation_payment_type +"</td>";
+                    // tbody += "<td>"+response.donations[key].donation_payment_details + ' - ' + response.donations[key].donation_payment_details_value +"</td>";
+                    tbody += "<td>"+response.donations[key].donation_purpose +"</td>";
+                    tbody += "<td>";
+                    tbody += "<button type='button' class='btn btn-primary btn-sm viewDonationDetails' data-uid='"+response.donations[key].devotee_id+"' data-did='"+response.donations[key].donation_id+"' ><span class='glyphicon glyphicon-eye-open'></span></button> &nbsp;";
+                    tbody += "<button type='button' class='btn btn-primary btn-sm editDonationDetails' data-uid='"+response.donations[key].devotee_id+"' data-did='"+response.donations[key].donation_id+"' ><span class='glyphicon glyphicon-pencil'></span></button> &nbsp;";
+                    tbody += "<a href='/dashboard/printDetails?devotee_id="+ response.donations[key].devotee_id +"&donation_id="+response.donations[key].donation_id+"' target='_blank' class='btn btn-primary btn-sm' ><span class='glyphicon glyphicon-print'></span></a> &nbsp;";
+                    tbody += "<button type='button' class='btn btn-danger btn-sm deleteDonationDetails' data-uid='"+response.donations[key].donation_id+"' ><span class='glyphicon glyphicon-trash'></span></button>";
+                    tbody += "&emsp;</td>";
+                    tbody += "</tr>";
+                    
+                });
+                $('#dataTables_donations').append(tbody);
+                // $('#dataTables_donations').dataTable({
+                //     "pageLength": 25,
+                //     "order": [[ 1, "desc" ]],
+                //     // "columnDefs" : [{"targets":3, "type":"date-eu"}],
+                // });
+                $('#dataTables_donations').DataTable({
+                    "ordering": false,
+                    "pageLength": 25,
+                });
+                
+            }
+        },
+        complete:function(data){
+            // Hide image container
+            $("#loader").hide();
+            $("#donation_panel").show();
+        },
+        error: function(err){
+            console.log(err);
+        }
+    });
+
+    $.ajax({
+        type : 'POST',
+        url:'/donation/getDonationPurpose',
+        headers: {"x-access-token": localStorage.getItem('token')},
+        success: function(data){
+            if(data.success == 1 && data.failure == 0){
+                var len = data.count;
+                $('#donation_purpose').empty();
+                $.each(data.donations_purposes, function(i, d) {
+                    // You will need to alter the below to get the right values from your json object.  Guessing that d.id / d.modelName are columns in your carModels data
+                    $('#donation_purpose').append('<option value="' + d.donation_purpose_name + '">' + d.donation_purpose_name + '</option>');
+                });
+            }
+        }
+    });
+
+    $.ajax({
+          type : 'POST',
+          url:'/genReport/getaccYears',
+          headers: {"x-access-token": localStorage.getItem('token')},
+          success: function(data){
+              if(data.success == 1 && data.failure == 0){
+                  $('#showAccYears').empty();
+                  $.each(data.accYears, function(i, d) {
+                      // You will need to alter the below to get the right values from your json object.  Guessing that d.id / d.modelName are columns in your carModels data
+                      $('#showAccYears').append('<option value="' + d.accy_Name + '">' + d.accy_Name + '</option>');
+                  });
+              }
+          }
+      });
+
+    $(document).on('click', '.viewDonationDetails', function(e){
+        var devotee_id = $(this).data('uid');
+        var donation_id = $(this).data('did');
+        var modalHtml = '';
+        var name = '';
+        var myDatess;
+        //$('#viewDonationDetailsModalBody').html('');
+        $.ajax({
+            url : '/donation/getReceipt',
+            type : 'POST',
+            headers : { "x-access-token" : localStorage.getItem('token') },
+            data : { devotee_id : devotee_id, donation_id : donation_id },
+            success : function(response){
+                if(response.success == 1 & response.failure == 0){
+                    modalHtml += "<button type='button' class='close' data-dismiss='modal'>×</button> <br><br>";
+                    modalHtml +=  "<p class='text-center'><b>Donation Details</b></p>";
+                    modalHtml += "<table class='table table-striped table-bordered'><tbody>";   
+                    // modalHtml += "<tr><th colspan='2'>Donation Details</th></tr>";
+                    modalHtml += "<tr><th>Devotee Id : </th><td>"+ response.receipt_data[0].devotee_id+"</td></tr>";
+                    name = response.receipt_data[0].title + ' ' + response.receipt_data[0].fName + ' ' + response.receipt_data[0].lName ;
+                    modalHtml += "<tr><th>Name</th><td>"+ name +"</td></tr>";
+                    modalHtml += "<tr><th>Email</th><td>"+ response.receipt_data[0].email+"</td></tr>";
+                    modalHtml += "<tr><th>Address</th><td>"+ response.receipt_data[0].address+"</td></tr>";
+                    // modalHtml += "<tr><th>Country</th><td>"+ response.receipt_data[0].country+"</td></tr>";
+                    modalHtml += "<tr><th>Contact No</th><td>"+ response.receipt_data[0].phone+"</td></tr>";
+                    modalHtml += "<tr><th>PAN NO</th><td>"+ response.receipt_data[0].pan_no+"</td></tr>";
+                    modalHtml += "<tr><th>Donation Id</th><td>E000"+ response.receipt_data[0].donation_id+"</td></tr>";
+                    myDatess = moment(response.receipt_data[0].donation_date).format('DD-MM-YYYY');
+                    modalHtml += "<tr><th>Donation Date</th><td>"+ myDatess +"</td></tr>";
+                    modalHtml += "<tr><th>Donation Amount</th><td>"+ response.receipt_data[0].donation_amount+"</td></tr>";
+                    modalHtml += "<tr><th>Donation Amount In Words</th><td>"+ response.receipt_data[0].donation_amount_in_words+"</td></tr>";
+                    modalHtml += "<tr><th>Donation Payment Type</th><td>"+ response.receipt_data[0].donation_payment_type+"</td></tr>";
+                    modalHtml += "<tr><th>"+ response.receipt_data[0].donation_payment_details+"</th><td>"+ response.receipt_data[0].donation_payment_details_value+"</td></tr>";
+                    modalHtml += "<tr><th>Donation Purpose</th><td>"+ response.receipt_data[0].donation_purpose+"</td></tr>";
+                    modalHtml += "<tr><th>Donation Currency</th><td>"+ response.receipt_data[0].donation_currency+"</td></tr>";
+                    modalHtml += "</tbody></table>";
+                    modalHtml += "<tr><button class='btn btn-primary' type='button' id='save_recipt' data-uid='"+ response.receipt_data[0].donation_id +"' style='margin-left:35%; border-radius: 5px;'><span class='glyphicon glyphicon-pencil'></span>  Save a PDF</button></tr>";
+                    $('#viewDonationDetailsModalBody').html(modalHtml);
+                    $('#viewDonationDetailsModal').modal('show');
+                }else{
+                    modalHtml += "<tr><td colspan='2'>No Details Found</td></tr>";
+                    $('#viewDonationDetailsModalBody').html(modalHtml);
+                    $('#viewDonationDetailsModal').modal('show');
+                }
+            },
+            error: function(err){
+                console.log(err);
+            }
+        });
+    });
+
+    $(function() { 
+        $("#trans_date").datepicker({
+            dateFormat: 'yy-mm-dd', 
+            changeMonth: true, 
+            changeYear: true,
+            maxDate:'+0d', 
+            minDate: '-60d'
+        }); 
+    });
+
+    // $('#donation_purpose').focus(function(e){
+            
+    //     });
+    
+
+        // Edit Donation Details 
+    $(document).on('click', '.editDonationDetails', function(e){
+        var devotee_id = $(this).data('uid');
+        var donation_id = $(this).data('did');
+        var modalHtml = '';
+        var name = '';
+        var myDatess;
+        //$('#viewDonationDetailsModalBody').html('');
+        // $('#editDonationForm #donation_purpose').focus();
+        // $("#editDonationForm").find("#donation_purpose").focus();
+        $.ajax({
+            url : '/donation/getReceipt',
+            type : 'POST',
+            headers : { "x-access-token" : localStorage.getItem('token') },
+            data : { devotee_id : devotee_id, donation_id : donation_id },
+            success : function(response){
+                if(response.success == 1 & response.failure == 0){                   
+                    $('#donation_purpose').val(response.receipt_data[0].donation_purpose);
+                    $('#devotee_id').val(response.receipt_data[0].devotee_id);
+                    // toISOString()
+                    // console.log(response.receipt_data[0].trans_date);
+                    // var tempDate = moment(response.receipt_data[0].trans_date).format('DD-MM-YYYY');
+                    // console.log(temp);   
+                    // $('#trans_date').val(response.receipt_data[0].trans_date);
+                    // $('#trans_date').val(response.receipt_data[0].trans_date);                 
+                    $("#trans_date").datepicker("setDate", new Date(response.receipt_data[0].trans_date));
+                    $('#donation_amount').val(response.receipt_data[0].donation_amount);
+                    $('#donation_amount_in_words').val(response.receipt_data[0].donation_amount_in_words);
+                    $('#donation_payment_type').val(response.receipt_data[0].donation_payment_type);
+                    $('#label_donation_payment_type').html(response.receipt_data[0].donation_payment_details);
+                    $('#donation_payment_details_value').val(response.receipt_data[0].donation_payment_details_value);
+                    $('#donation_currency').val(response.receipt_data[0].donation_currency); 
+                    $('#editId').val(response.receipt_data[0].donation_id); 
+                    // $('#editDonationDetailsModalBody').html(modalHtml);
+                    $('#editDonationDetailsModal').modal('show');
+                }else{
+                    modalHtml += "<tr><td colspan='2'>No Details Found</td></tr>";
+                    // $('#editDonationDetailsModalBody').html(modalHtml);
+                    $('#editDonationDetailsModal').modal('show');
+                }
+            },
+            error: function(err){
+                console.log(err);
+            }
+        });
+    });
+
+    
+    $(document).on('click','#btnEditDonation', function(e){
+                //console.log(isValid)
+                // if(isValid == true){
+                    $.ajax({
+                    type : 'POST',
+                    url:'/donation/updateDonationDetails',
+                    headers: {"x-access-token": localStorage.getItem('token')},
+                    data : $('#editDonationForm').serialize(),
+                    success : function(response){
+                        if(response.success == 1 && response.failure == 0){
+                            toastr.info(response.msg);
+                            window.location.reload();
+                        }
+                    },
+                    error: function(err){
+                        console.log(err);
+                    }
+                });
+            // }else{
+            //     toastr.error('INVALID INPUTS.! PLEASE TRY AGAIN');
+            // }
+        });
+
+    // $(document).on('click','#save_recipt', function(e){
+    //         var receipt_id = $(this).data('uid');
+    //         //window.print();
+    //         var divContents = document.getElementById("viewDonationDetailsModalBody").innerHTML; 
+    //         var a = window.open('', '', 'height=500, width=500'); 
+    //         a.document.write('<html>'); 
+    //         a.document.write('<body ><h1>Primary Receipt<br>'); 
+    //         a.document.write(divContents); 
+    //         a.document.write('</body></html>'); 
+    //         a.document.close(); 
+    //         a.print();
+    //     });
+
+
+        //Save Receipt new
+        $(document).on('click','#save_recipt', function(e){
+            var receipt_id = $(this).data('uid');
+            $('#save_recipt').hide(); 
+            // window.print();  print_ack
+            //var divContents = document.getElementById("donation_panel_confirm").innerHTML; 
+            var divContents = document.getElementById("viewDonationDetailsModalBody").innerHTML;
+            var a = window.open('', '', 'height=900, width=700'); 
+            a.document.write('<html>'); 
+            a.document.write('<head><link href="/css/bootstrap.min.css" rel="stylesheet" /> </head>'); 
+            a.document.write("<img src='/img/top_logo.png'/>"); 
+            // a.document.write("<img src='/img/top_logo.png'/>"); 
+            a.document.write('<body><h1 class="text-center" id="display_receipt_no">Receipt - E000'+receipt_id+'</h1>');
+                
+            a.document.write(divContents); 
+            // a.document.write("<img src='/img/top_logo.png'/>");
+            a.document.write("<img src='/img/bot_tax.png'/>"); 
+            a.document.write('</body></html>'); 
+            $('#save_recipt').show();
+            a.document.close(); 
+            a.print();
+        });
+
+        $(document).on('click', '.deleteDonationDetails', function(e){
+            $('#deleteDonationDetailsModal').modal('show');
+            var donation_id = $(this).data('uid');
+            $('#donation_id_delete').val(donation_id);
+        });
+
+
+    $(document).on('click', '#deleteDonationButton', function(e){
+        $.ajax({
+            url : '/donation/deleteDonationDetails',
+            type : 'POST',
+            dataType : 'json',
+            headers : { "x-access-token" : localStorage.getItem('token') },
+            data : $('#donation_delete_form').serialize(),
+            success : function(response){
+                if(response.success == 1 && response.failure == 0){
+                    toastr.info(response.msg);
+                    $('#deleteModal').modal('hide');
+                    setTimeout(function(){window.location.reload()}, 1000);
+                    //location.reload();
+                }
+                if(response.success == 0 && response.failure == 1){
+                    if(response.errorData == true){
+                        $.each(response.errors, function(i, item) {
+                        toastr.error(response.errors[i].msg);// alert(data[i].PageName);
+                        });
+                    }else{
+                        toastr.error(response.msg);
+                    }
+                }
+            },
+            error : function(){
+
+            }
+        });
+     });
+
+     
+   $(document).on('click','#genfrmDonationListing', function(){
+        var acy = $('#frmDonationListing').find('select[name="showAccYears"]').val();
+        // var donName = $('#frmNamewise2').find('input[name="donName2"]').val();
+        var paramString = '?acy='+acy;
+        var URL = window.location.hostname + ':' + window.location.port + '/donationListingQuery';
+        window.open('http://'+URL+paramString, 'height=900, width=700');
+    });
+
+    $(document).on('click','#confirmRange', function(){
+        // alert('OK');
+        var sReceipt = $('#sReceipt').val();
+        var eReceipt = $('#eReceipt').val();
+        if (sReceipt  === '' && eReceipt === '') {
+            toastr.error('EMPTY FIELDS');
+            return false;
+        }
+        if(sReceipt>sReceipt) {
+            toastr.error('INVALID INPuts');
+            return false;
+        }
+        var paramString = '?startingReceipt='+sReceipt+'&endingReceipt='+eReceipt;
+        var URL = window.location.hostname + ':' + window.location.port + '/donation/getRangeReceipt';
+        window.open('http://'+URL+paramString, '_blank', 'height=900, width=1280');
+            // $.ajax({
+            //     type : 'POST',
+            //     url:'/donation/addAccYears',
+            //     headers: {"x-access-token": localStorage.getItem('token')},
+            //     data : $('#frmaddNewAccYear').serialize(),
+            //     success: function(response){
+            //         if(response.success == 1 && response.failure == 0){
+            //         toastr.info(response.msg);
+            //         setTimeout(() => {
+            //             window.location.reload();
+            //         }, 2000); 
+            //         }
+            //         if(response.success == 0 && response.failure == 1){
+            //             if(response.errorData == true){
+            //                 $.each(response.errors, function(i, item) {
+            //                 toastr.error(response.errors[i].msg);// alert(data[i].PageName);
+            //                 });
+            //             }else{
+            //                 toastr.error(response.msg);
+            //             }
+            //         }
+            //     }
+            // });
+        }); 
+
+} ); //end of document ready
+
+function numberToWords(x) {  
+        //INDIAN SYSTEM
+        var r=0, txter=x;
+        var sizer=txter.length;
+        var numStr="";
+        if(isNaN(txter)){
+            // alert(" Invalid number");
+            return ("INVALID AMOUNT");
+        }
+        var n=parseInt(x);
+        var places=0;
+        var str="";
+        var entry=0;
+        while(n>=1){
+            r=parseInt(n%10);
+            if(places<3 && entry==0){
+                numStr=txter.substring(txter.length-0,txter.length-3) // Checks for 1 to 999.
+                str=onlyDigit(numStr); //Calls function for last 3 digits of the value.
+                entry=1;
+            }
+            if(places==3){
+                numStr=txter.substring(txter.length-5,txter.length-3) 
+                if(numStr!=""){
+                    str=onlyDigit(numStr)+ " Thousand "+str;
+                }
+            }
+            if(places==5){
+                numStr=txter.substring(txter.length-7,txter.length-5) //Substring for 5 place to 7 place of the string
+                if(numStr!=""){
+                    str=onlyDigit(numStr)+ " Lakhs "+str; //Appends the word lakhs to it
+                }
+            }
+            if(places==6){
+                numStr=txter.substring(txter.length-9,txter.length-7)  //Substring for 7 place to 8 place of the string
+                if(numStr!=""){
+                    str=onlyDigit(numStr)+ " Crores "+str;        //Appends the word Crores
+                    // str=onlyDigit(numStr)+ " Crores ";
+                }
+            }
+            n=parseInt(n/10);
+            places++;
+        }
+        // alert(str);
+        str += ' Only.'
+        return str;
+    } 
+    function onlyDigit(n){
+        //Arrays to store the string equivalent of the number to convert in words
+        var units=['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine'];
+        var randomer=['','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
+        var tens=['','Ten','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+        var r=0;
+        var num=parseInt(n);
+        var str="";
+        var pl="";
+        var tenser="";
+        while(num>=1){
+            r=parseInt(num%10);
+            tenser=r+tenser;
+            if(tenser<=19 && tenser>10){ //Logic for 10 to 19 numbers
+                str=randomer[tenser-10];
+            }else{
+                if(pl==0) str=units[r];     //If units place then call units array.
+                else if(pl==1) str=tens[r]+" "+str;   //If tens place then call tens array.
+            }
+            if(pl==2){       //If hundreds place then call units array.
+                str=units[r]+" Hundred "+str;
+            }
+            if(pl==3){       //If thousands place then call units array.
+                str=units[r]+" Thousand "+str;
+            }
+            if(pl==4){       //If lakhs place then call units array.
+                str=units[r]+" Lakh "+str;
+            }
+            num=parseInt(num/10);
+            pl++;
+        }
+        return str;
+    }
+
+</script>
+    

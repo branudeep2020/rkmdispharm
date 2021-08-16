@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link href="/css/toastr.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="/css/mail-style.css">
+<link href="/css/font-awesome.css" rel="stylesheet" />
+</head>
+<body>
+
+<div class="container" style="margin-top: 5px;">
+  <div style="text-align:center">
+    <h2>RAMKRISHNMNA MISSION ASHRAMA MANASWADWIP</h2>
+    <p>MAILL APP</p>
+  </div>
+  <div class="row">
+    <!-- <div class="column"> -->
+      <!-- <img src="/images/map.jpg" style="width:100%"> -->
+      <!-- <select id="country" name="country">
+        <option value="australia">Australia</option>
+        <option value="canada">Canada</option>
+        <option value="usa">USA</option>
+      </select> -->
+      <!-- <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name"> -->
+      <!-- <input type="text" id="myInput" placeholder="Search for names.." title="Type in to search">
+      <div id="nameList">
+        <table id="devoteesTable" class=" table table-condensed table-hover">
+          <tr class="header">
+            <th style="width:60%;">Name</th>
+            <th style="width:40%;">Country</th>
+          </tr>
+          <tr>
+            <td>Alfreds Futterkiste</td>
+            <td>Germany</td>
+          </tr>
+          <tr>
+            <td>Berglunds snabbkop</td>
+            <td>Sweden</td>
+          </tr>
+          <tr>
+            <td>Island Trading</td>
+            <td>UK</td>
+          </tr>
+        </table>
+      </div> --><!-- End of Table Div-->
+      <!-- <div style="margin-left: 40%;">
+        <input name="select_all" id="select_all" value="1" type="checkbox"> &nbsp; Select All &emsp13;&emsp13;
+        <button type="button" class="btn btn-default" id="use-addresses" >>></button>
+      </div>
+    </div> -->
+    <div class="col-md-12">
+      <!-- <form action="/mail/sendTest" method="post" enctype="multipart/form-data" novalidate> -->
+        <form name="mailForm" id="mailForm">
+        <!-- <label for="to">TO</label>
+        <input type="text" id="to" name="to" placeholder="To"> -->
+        <label for="subject">SUBJECT</label>
+        <input type="text" id="subject" name="subject" placeholder="Email Subject.." value="">
+        <!-- <label for="country">Country</label> 
+        <select id="country" name="country">
+          <option value="australia">Australia</option>
+          <option value="canada">Canada</option>
+          <option value="usa">USA</option>
+        </select> -->
+        <label for="emailbody">EMAIL</label>
+        <!-- <textarea id="emailbody" class="ckeditor" name="emailbody" placeholder="Write something.." style="height:128px; resize: none;"></textarea> -->
+        <textarea id="emailbody" name="emailbody" placeholder="Write something.." style="height:128px; resize: none;"></textarea>
+        <br>
+        <!-- <label for="file">ATTACHEMNT</label> &emsp;&emsp;
+        <input type="text" name="fileName" id="fileName"  class="inputfile"/> -->
+        <!-- <br> -->
+        <!-- <input type="submit" value="SEND"> -->
+        <label for="offset" style="width: 200px; float: left; margin: 0 20px 0 200px;">
+          <span style="display: block; margin: 0 0 3px; font-size: 1.2em; font-weight: bold;">FROM(n+1)</span>
+          <input type="text" id="offset" name="limit" style=" width: 200px; border: 1px solid #000; padding: 5px;"/>
+        </label>
+        <label for="limit" style="width: 200px; float: left; margin: 0 20px 0 0;">
+          <span style="display: block; margin: 0 0 3px; font-size: 1.2em; font-weight: bold;">TO</span>
+          <input type="text" id="limit" name="limit" style=" width: 200px; border: 1px solid #000; padding: 5px;"/>
+        </label>
+        <button type="button" class="btn btn-success" id="send" style="width: 200px; float: left; margin: 30px 20px 0 0;"><i class="fa fa-paper-plane" aria-hidden="true">&nbsp; Send</i></button>
+      </form>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/moment.min.js"></script>
+    <script src="/js/toastr.min.js"></script>
+    <script src="/js/jquery-ui.min.js"></script>
+    <script src="/js/jquery.validate.min.js"></script>
+    <script src="/js/jquery.metisMenu.js"></script>
+    <script src="/js/morris/raphael-2.1.0.min.js"></script>
+    <script src="/js/morris/morris.js"></script>
+    <script src="/js/dataTables/jquery.dataTables.js"></script>
+    <script src="/js/dataTables/dataTables.bootstrap.js"></script>
+    <script src='/js/excelexportjs.js'></script>
+    <script src='/js/ckeditor/ckeditor.js'></script>
+<script>
+  // function myFunction() {
+  //   var input, filter, table, tr, td, i, txtValue;
+  //   input = document.getElementById("myInput");
+  //   filter = input.value.toUpperCase();
+  //   table = document.getElementById("devoteesTable");
+  //   tr = table.getElementsByTagName("tr");
+  //   for (i = 0; i < tr.length; i++) {
+  //     td = tr[i].getElementsByTagName("td")[i];
+  //     if (td) {
+  //       txtValue = td.textContent || td.innerText;
+  //       if (txtValue.toUpperCase().indexOf(filter) > -1) {
+  //         tr[i].style.display = "";
+  //       } else {
+  //         tr[i].style.display = "none";
+  //       }
+  //     }       
+  //   }
+  // }
+  // Replace the <textarea id="editor1"> with a CKEditor
+// instance, using default configuration.
+CKEDITOR.editorConfig = function (config) {
+    config.language = 'es';
+    config.uiColor = '#F7B42C';
+    config.height = 300;
+    config.toolbarCanCollapse = true;
+
+};
+CKEDITOR.replace('emailbody', {
+    // filebrowserBrowseUrl: '/mail/browse',
+    // filebrowserUploadUrl: '/mail/uploadFile'
+});
+
+$(document).ready(function() {
+        $.ajax({
+        type : 'POST',
+        url:'/mail/devoteesMail',
+        // headers: {"x-access-token": localStorage.getItem('token')},
+        success : function(response){
+            if(response.success == 1 && response.failure == 0){
+                var tbody;
+                var myDate1, myDate2;
+                if(response.data==true) $('#devoteesTable').html('');
+                tbody += "<tr class='header'>";
+                tbody += "<th style='width:10%; text-align:center;'>Select</th>";
+                tbody += "<th style='width:20%; text-align:center;'>Name</th>";
+                tbody += "<th style='width:10%; text-align:center;'>Email</th>";
+                tbody += "<th style='width:10%; text-align:center;'>Phone</th>";
+                tbody += "<th style='width:50%; text-align:center;'>Addres</th>";
+                tbody += "</tr>";
+                $.each(response.devotees, function (key, value){
+                    tbody += "<tr>";
+                    // tbody += "<td>"+response.devotees[key].devotee_id+"</td>";
+                    tbody += "<td><input type='checkbox' name='selDev' class='checkBoxClass' value='"+ response.devotees[key].email +"'/></td>";
+                    tbody += "<td>"+response.devotees[key].title+ " " + response.devotees[key].fName+ " " +  " " + response.devotees[key].lName+ " " + "</td>";
+                    tbody += "<td>"+response.devotees[key].email+"</td>";
+                    tbody += "<td>"+response.devotees[key].phone+"</td>";
+                    tbody += "<td>"+response.devotees[key].address+"</td>";
+                    tbody += "</tr>";
+                });
+                $('#devoteesTable').append(tbody);
+            }
+        },
+        error: function(err){
+            console.log(err);
+        }
+    });
+
+    $("#myInput").on("keyup", function(){
+        var value = $(this).val().toLowerCase();
+        $("#devoteesTable tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+
+    $(document).on('click', '#devoteesTable tr', function(event) {
+      if (event.target.type !== 'checkbox') {
+        $(':checkbox', this).trigger('click');
+      }
+    });
+
+    $(document).on('click', '#select_all', function () {
+      $(".checkBoxClass").prop('checked', $(this).prop('checked'));
+    });
+
+    $(document).on('click','#use-addresses', function() {
+      // alert('Hello');
+      var favorite = [];
+      $.each($("input[name='selDev']:checked"), function(){
+        favorite.push($(this).val());
+      });
+      // alert("Devotees Email : " + favorite.join("; "));
+      $text = favorite.join("; ");
+      if($('#to').val().length === 0){
+        $('#to').val($text);
+      }else{
+        $('#to').val($('#to').val() + '; ' + $text);
+      }
+      $(".checkBoxClass").prop('checked', false);
+      $("#select_all").prop('checked', false);
+    });
+
+    $(document).on('click','#send', function() {
+      var subject = $('#subject').val();
+      var limit = $('#limit').val();
+      var offset = $('#offset').val();
+      var textdata = CKEDITOR.instances.emailbody.getData();
+      // console.log(subject);
+      // console.log(textdata);
+      $.ajax({
+        type : 'POST',
+        url:'/mail/send',
+        // headers: {"x-access-token": localStorage.getItem('token')},
+        data : { subject : subject, emailbody : textdata, limit : limit, offset : offset },
+        success : function(response){
+          if(response.errorData == true){
+              $.each(response.errors, function(i, item) {
+              toastr.error(response.errors[i].msg);// alert(data[i].PageName);
+              });
+          }
+          if( response.success == 1 && response.failure == 0){
+            alert(response.msg + '[' +  response.sendList +']');
+          }
+        }
+      });
+    });
+});
+  
+</script>
+

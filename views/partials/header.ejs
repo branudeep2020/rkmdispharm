@@ -1,0 +1,206 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MGHM	</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet" /> 
+    <link href="/css/font-awesome.css" rel="stylesheet" />
+    <link href="/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
+    <link href="/css/toastr.min.css" rel="stylesheet" />
+    <link href="/css/jquery-ui.css" rel="stylesheet" />
+    <link href="/css/open-sans-font.css" rel="stylesheet" />
+    <link href="/css/custom-styles.css" rel="stylesheet" />
+    <link href="/js/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
+    
+    <style>
+    body{ overflow-x: hidden;}
+    .form-control.error { border-color: #f50000;}
+    .table th, td { text-align: center;  }
+    .ui-datepicker-month { color: black;}
+    .ui-datepicker-year { color: black;}
+    .error{ outline: 1px solid red;} 
+    .panel-heading .accordion-toggle:after {
+    /* symbol for "opening" panels */
+    font-family: 'Glyphicons Halflings';   /*essential for enabling glyphicon */
+    content: "\e114";    /* adjust as needed, taken from bootstrap.css */
+    float: right;        /* adjust as needed */
+    color: rgb(245, 243, 243);         /* adjust as needed */
+}
+.panel-heading .accordion-toggle.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content: "\e080";    /* adjust as needed, taken from bootstrap.css */
+}
+
+/* .back-to-top {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    /* display: none;
+} */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .section-to-print, .section-to-print * {
+    visibility: visible;
+  }
+  .section-to-print {
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin-left: 35px;
+  }
+}
+.btn-wid{
+    width: 150px;
+}
+
+
+ /* 
+   NAV BARE STYLES
+  */
+
+  .topnav {
+  overflow: hidden;
+  background-color: #e9e9e9;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #2196F3;
+  color: white;
+}
+
+.topnav .search-container {
+  float: right;
+}
+
+.topnav input[type=text] {
+  padding: 6px;
+  margin-top: 8px;
+  font-size: 17px;
+  border: none;
+}
+
+.topnav .search-container button {
+  float: right;
+  padding: 6px;
+  margin-top: 8px;
+  margin-right: 16px;
+  background: #ddd;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.topnav .search-container button:hover {
+  background: #ccc;
+}
+
+@media screen and (max-width: 600px) {
+  .topnav .search-container {
+    float: none;
+  }
+  .topnav a, .topnav input[type=text], .topnav .search-container button {
+    float: none;
+    display: block;
+    text-align: left;
+    width: 100%;
+    margin: 0;
+    padding: 14px;
+  }
+  .topnav input[type=text] {
+    border: 1px solid #ccc;  
+  }
+}
+
+    </style>
+
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="https:////cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"> -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <!-- <link href='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/ui-lightness/jquery-ui.css' rel='stylesheet'>  -->
+    <!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' /> -->
+    
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default top-navbar" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/dashboard">RKMAM</a>
+                <!-- <a class="navbar-brand" href="/dashboard"><img src="/img/logo2.png" height="70px"></a> -->
+            </div>
+            
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="/users/usersettings"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="/" id="logout-lnk"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+        </nav>
+        <!--/. NAV TOP  -->
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+                    <li class="">
+                        <a class="active-menu" href="/dashboard"><i class="fa fa-dashboard"></i> Status</a>
+                    </li>
+					<!-- <li>
+                        <a href="/roombook"><i class="fa fa-bar-chart-o"></i> Room Booking</a>
+                    </li> -->
+                    <li>
+                        <a href="/bookedrooms"><i class="fa fa-suitcase"></i> Search Booking</a>
+                    </li> 
+                    <li>
+                        <a href="/devotees"><i class="fa fa-shield"></i> Devotees</a>
+                    </li>
+                    <li>
+                        <a href="/donation"><i class="fa fa-tint"></i> New Donation</a>
+                    </li>
+                    <li>
+                        <a href="/donationListing"><i class="fa fa-quote-right"></i> Donations</a>
+                    </li>
+                    <li>
+                        <a href="/genReport"><i class="fa fa-qrcode"></i> Reports</a>
+                    </li>
+                    <li>
+                        <a href="/misc"><i class="fa fa-random"></i> Misc</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- /. NAV SIDE  -->

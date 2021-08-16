@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>MGHM</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https:////cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+  <link rel="stylesheet" href="css/indexStyle.css">
+</head>
+
+<body>
+  <div id="clouds">
+	<div class="cloud x1"></div>
+	<!-- Time for multiple clouds to dance around -->
+	<div class="cloud x2"></div>
+	<div class="cloud x3"></div>
+	<div class="cloud x4"></div>
+	<div class="cloud x5"></div>
+</div>
+ <div class="containerOne">
+   <div id="login">
+        <form id="registerForm">
+          <fieldset class="clearfix">
+            <p><span class="fontawesome-name"></span><input type="text"  id="name" name="name" value="Full Name" onBlur="if(this.value == '') this.value = 'Full Name'" onFocus="if(this.value == 'Full Name') this.value = ''" required></p> <!-- JS because of IE support; better: placeholder="Username" -->
+            <p><span class="fontawesome-user"></span><input type="text"  id="username" name="username" value="Username" onBlur="if(this.value == '') this.value = 'Username'" onFocus="if(this.value == 'Username') this.value = ''" required></p> <!-- JS because of IE support; better: placeholder="Username" -->
+            <p><span class="fontawesome-lock"></span><input type="email" id="email" name="email"  value="Email" onBlur="if(this.value == '') this.value = 'Email'" onFocus="if(this.value == 'Email') this.value = ''" required></p> <!-- JS because of IE support; better: placeholder="Password" -->
+            <p><span class="fontawesome-lock"></span><input type="password" id="pass" name="pass"  value="Password" onBlur="if(this.value == '') this.value = 'Password'" onFocus="if(this.value == 'Password') this.value = ''" required></p> <!-- JS because of IE support; better: placeholder="Password" -->
+            <p><span class="fontawesome-lock"></span><input type="password" id="repass" name="repass"  value="Password" onBlur="if(this.value == '') this.value = 'Password'" onFocus="if(this.value == 'Password') this.value = ''" required></p> <!-- JS because of IE support; better: placeholder="Password" -->
+              <select class="form-control" id="sec_quest" name="sec_quest">
+                <option></option>What Is your favorite book?
+                <option>What is the name of the road you grew up on?
+                <option>What is the name of the road you grew up on?
+                <option>What is your mother’s maiden name?
+                <option>What was the name of your first/current/favorite pet?
+                <option>What was the first company that you worked for?
+                <option>Where did you meet your spouse?
+                <option>Where did you go to high school/college?
+                <option>What is your favorite food?
+                <option>What city were you born in?
+                <option>Where is your favorite place to vacation?
+              </select>
+            </p> <!-- JS because of IE support; better: placeholder="Password" -->
+            <p><span class="fontawesome-lock"></span><input type="password" id="sec_ans" name="sec_ans"  value="Password" onBlur="if(this.value == '') this.value = 'Password'" onFocus="if(this.value == 'Password') this.value = ''" required></p> <!-- JS because of IE support; better: placeholder="Password" -->
+            <p><input type="button" name="sub" id="btnRegister" value="Register"></p>
+          </fieldset>
+
+        </form>
+
+       
+
+      </div> <!-- end login -->
+    </div>
+    <br><br><br> <br><br><br>
+    <div class="text-center">
+      <p style="font-size: 15px;"><a href="/">Back to Login </a></p>
+    </div>
+    
+    <div class="bottom">  <h3>RAMAKRISHNA MISSION MANASWADIP</h3></div>
+  
+    
+</body>
+</html>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  <script>
+    toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  }
+$(document).ready(function(){
+
+
+  // $(document).on('click', '#btnRegister', function(e){
+  //   var username = $('#username').val();
+  //   var pass = $('#pass').val();
+  //   var name = $('#fullname').val();
+  //   // $target = $(e.target);
+  //   // const id = $target.attr('data-id');
+  //   var usertoken;
+  //   if( username != "" && pass != "" && username !== "Username" && pass !== "Password" && name !="" && name !== "Full Name"){
+  //     $.ajax({
+  //       type : 'POST',
+  //       url : 'users/register',
+  //       data : $('#registerForm').serialize(),
+  //       success : function(response){
+  //         if(response.success == 1 && response.failure == 0){
+  //           usertoken = response.token;
+  //           if (typeof(Storage) !== "undefined")localStorage.setItem('token',usertoken);
+  //           toastr.success(response.msg);
+  //           setTimeout(function(){
+  //             //give a loader
+  //             window.location = '/dashboard'
+  //           }, 3000);
+  //         }else if(response.success == 0 && response.failure == 1){
+  //           toastr.error(response.msg);
+  //         }
+  //       }
+  //   });
+  //   }else{
+  //     toastr.error('Empty Fields');
+  //   }
+  // });
+});
+
+</script>

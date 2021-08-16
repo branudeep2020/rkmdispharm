@@ -1,0 +1,184 @@
+<html>
+<head>
+		<meta charset="utf-8">
+		<title>RKMAM - Recipt</title>
+		<!-- <link rel="stylesheet" href="css/style.css">
+		<link rel="license" href="https://www.opensource.org/licenses/mit-license/">
+		<script src="js/script.js"></script> -->
+		<link href="/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="/css/font-awesome.css" rel="stylesheet" />
+		<link href="/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
+		<link href="/css/toastr.min.css" rel="stylesheet" />
+		<link href="/css/jquery-ui.css" rel="stylesheet" />
+		<link href="/css/open-sans-font.css" rel="stylesheet" />
+		<link href="/css/custom-styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- Image loader -->
+    <div id='loader' style='display: none;'>
+        <img src='/img/loader/loader-1.gif' width='250px' height='250px' style="margin-top: 220px; margin-left: 500px;">
+    </div>
+    <!-- Image loader -->
+<div class="col-md-12 col-sm-12" style="width: 100%; padding : 5px 5px;" id="main-div">
+    <table class="table display table-responsive table-striped table-bordered table-hover" id="reportTable" style="font-size: 12px;">
+   <tbody id="report_tbody">
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Date</th>
+            <th scope="col">Name</th>
+            <th scope="col">Address</th>
+            <th scope="col">Amount</th>
+            <!-- <th scope="col">Amount In Words</th> -->
+            <th scope="col">Payment Type</th>
+            <th scope="col">Currency</th>
+            <th scope="col">Payment Details</th>
+            <th scope="col">PAN</th>
+            <th scope="col">Purpose</th>
+            <th scope="col">Donation Month</th>
+            <!-- <th scope="col">Devotee Id</th> -->
+        </tr>
+        <!-- <tr><td>E00015</td><td>02-01-2021</td><td>Rs : 3112/-</td><td>CASH</td><td>INR</td><td>CASH : 3112</td><td>THAKUR UTSAV</td><td>2</td></tr> -->
+        
+        </tbody>
+    </table>
+    <p>&nbsp;</p>
+    <!-- <a id="down_report" download="down_report" href="/files/download.xlsx" target="_blank" class="btn btn-primary" style="margin: 3em 7em;">DOWNLOAD EXCEL</a> -->
+    <button id="down_report" type="button" class="btn btn-primary" style="margin: 0 34em;">DOWNLOAD EXCEL</button>
+</div> 
+</body>
+</html>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/moment.min.js"></script>
+<script src="/js/toastr.min.js"></script>
+<script src="/js/jquery-ui.min.js"></script>
+<script src="/js/jquery.metisMenu.js"></script>
+<script src="/js/morris/raphael-2.1.0.min.js"></script>
+<script src="/js/morris/morris.js"></script>
+<script src='/js/excelexportjs.js'></script>
+<script src='/js/ckeditor/ckeditor.js'></script>
+<script src="/js/xlsx.full.min.js"></script>
+<script src="/js/FileSaver.min.js"></script>
+<script>
+    function GetURLParameter(sParam){
+        var sPageURL = window.location.search.substring(1);
+        var sURLVariables = sPageURL.split('&');
+        for (var i = 0; i < sURLVariables.length; i++){
+            var sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0] == sParam) return sParameterName[1];
+        }
+    }
+    $(document).ready( function() {
+        var reportDateFrom = GetURLParameter('reportDateFrom');
+		var reportDateTo = GetURLParameter('reportDateTo');
+        $.ajax({
+              type : 'POST',
+              url:'/genReport/allDons',
+              headers: {"x-access-token": localStorage.getItem('token')},
+              beforeSend: function(){
+                    // Show image container
+                    // $("#dataTables_donations tr").remove();
+                    $("#main-div").hide();
+                    $("#loader").show();
+                },
+              data : { reportDateFrom : reportDateFrom, reportDateTo : reportDateTo},
+              success : function(response){
+                if(response.success == 1 && response.failure == 0){ 
+                  var tbody;
+                  var myDate1, myMonth1;
+                  // var a = window.open('', '', 'height=720, width=1115'); 
+                  
+                  // a.document.write('<html>'); 
+                  // a.document.write('<head><link href="/css/bootstrap.min.css" rel="stylesheet" /> </head><body>'); 
+                  // a.document.write('<div class="col-md-12 col-sm-12" style="width: 100%; padding : 5px 5px;">');
+                  // a.document.write(`<table class="table display table-responsive table-striped table-bordered table-hover" id="repotTable" style="font-size: 12px;">
+                  //               <thead>
+                  //                 <tr>
+                  //                   <th scope="col">Donation Id</th>
+                  //                   <th scope="col">Donation Date</th>
+                  //                   <th scope="col">Donation amount</th>
+                  //                   <!-- <th scope="col">Amount In Words</th> -->
+                  //                   <th scope="col">Donation Payment Type</th>
+                  //                   <th scope="col">Donation Currency</th>
+                  //                   <th scope="col">Payment Details</th>
+                  //                   <!-- <th scope="col">Details Value</th> -->
+                  //                   <th scope="col">Purpose</th>
+                  //                   <th scope="col">Devotee Id</th>
+                  //                 </tr>
+                  //               </thead>
+                  //               <tbody id="report_tbody">
+                                  
+                  //               </tbody>
+                  //             </table>
+                  //             <br><br>
+                  //             <!-- <a id="down_report" download="down_report" href="/files/download.xlsx" target="_blank" class="btn btn-primary" style="margin: 3em 7em;">DOWNLOAD EXCEL</a> -->
+                  //             <button id="down_report" type="button" class="btn btn-primary" style="margin: 3em 34em;">DOWNLOAD EXCEL</button>
+                  //         </div> 
+                  // `);
+                  // a.document.write('</body></html>'); 
+                  // a.document.close(); 
+                  $.each(response.report_data, function (key, value){
+                    myDate1 =  moment(response.report_data[key].donation_date).format("DD-MM-YYYY");
+                    myMonth1 = moment(response.report_data[key].donation_date).format("MMM-YY");
+                    tbody += "<tr>";
+                    tbody += "<td>E000"+response.report_data[key].donation_id+"</td>";                    
+                    tbody += "<td>"+myDate1+"</td>";
+                    tbody += "<td>"+response.report_data[key].title+" "+response.report_data[key].fName+" "+response.report_data[key].lName+"</td>";
+                    tbody += "<td>"+response.report_data[key].address+", "+response.report_data[key].pincode+"</td>";
+                    tbody += "<td align='right'>"+response.report_data[key].donation_amount+"</td>";
+                    // tbody += "<td>"+response.report_data[key].donation_amount_in_words+"</td>";
+                    tbody += "<td>"+response.report_data[key].donation_payment_type+"</td>";
+                    tbody += "<td>"+response.report_data[key].donation_currency+"</td>";
+                    tbody += "<td>"+response.report_data[key].donation_payment_details+" : ";
+                    tbody += ""+response.report_data[key].donation_payment_details_value+"</td>";
+                    tbody += "<td>"+response.report_data[key].pan_no+"</td>";
+                    tbody += "<td>"+response.report_data[key].donation_purpose+"</td>";
+                    tbody += "<td style='text-transform: capitalize;'>"+myMonth1+"</td>";
+                    tbody += "</tr>";
+                  });
+                  $('#reportTable').append(tbody);
+                  toastr.info(response.msg);
+                }
+                if(response.success == 0 && response.failure == 1){
+                  if(response.errorData == true){
+                      $.each(response.errors, function(i, item) {
+                      toastr.error(response.errors[i].msg);// alert(data[i].PageName);
+                      });
+                  }else{
+                      toastr.error(response.msg);
+                  }
+                }
+              },
+                complete:function(data){
+                    // Hide image container
+                    $("#loader").hide();
+                    $("#main-div").show();
+                }
+            }); 
+        //NORMAL XLS DOWNLOAD
+        $(document).on('click','#down_report', function(e) {
+            e.preventDefault();  //stop the browser from following
+            var reportDateFrom = $('#reportDateFrom').val();
+            var reportDateTo = $('#reportDateTo').val();
+            $("#repotTable").excelexportjs({
+                containerid: "reportTable",
+                datatype: 'table'
+            });
+        });
+});  
+        // var wb = XLSX.utils.table_to_book(document.getElementById('reportTable'), {sheet:"sheet1"});
+        // var wbout = XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'});
+        // function s2ab(s) {
+        //                 var buf = new ArrayBuffer(s.length);
+        //                 var view = new Uint8Array(buf);
+        //                 for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+        //                 return buf;
+        // }
+
+        // $(document).on('click','#down_report', function(e) {
+        //     saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'donations.xlsx');
+        // });
+        // var xlsHeader = ["RNo", "Date", "Amount","Currency","Payment Details","Purpose", "DevoteeID"];
+</script>

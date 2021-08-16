@@ -1,0 +1,1056 @@
+<%- include('../partials/header'); -%>
+        <div id="page-wrapper">
+            <div id="page-inner">
+
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="page-header">
+                          Miscellaneous <small> - <span id ="todayDate"></span>  <span id ="todayTime"></span> </small>
+                        </h1>
+                    </div>
+                </div>
+
+                <div class="container" style="margin-left: -24px;">
+                  <div class="row">
+                    <div class="col-lg-2"><button class="btn btn-primary btn-lg custom-modal btn-wid" id="dp_Modal">Donation<br/>Purposes</button></div>
+                    <div class="col-lg-2"><button class="btn btn-primary btn-lg custom-modal btn-wid" id="room_Modal">Rooms<br/>Management</button></div>
+                    <div class="col-lg-2"><button class="btn btn-primary btn-lg custom-modal btn-wid" id="users_Modal">Users<br/>Management</button></div>
+                    <div class="col-lg-2"><button class="btn btn-primary btn-lg custom-modal btn-wid" id="cd_Modal">Cheque/Draft<br/>Management</button></div>
+                    <!-- <div class="col-lg-2"><button class="btn btn-primary btn-lg custom-modal btn-wid" id="titles_Modal">Titles<br/>Management</button></div>                     -->
+                  </div> <br>
+                  <div class="row">
+                    <div class="col-lg-2"><button class="btn btn-primary btn-lg custom-modal btn-wid" id="printAck_Modal">Acknowledge<br/>Print</button></div>
+                    <div class="col-lg-2"><button class="btn btn-primary btn-lg custom-modal btn-wid" id="printInLand">Inland Letter<br/>Print</button></div>
+                    <div class="col-lg-2"><button class="btn btn-primary btn-lg custom-modal btn-wid" id="printEmailList">Print Email<br/>List</button></div>  
+                    <!-- <div class="col-lg-2"><button class="btn btn-primary btn-lg custom-modal btn-wid" id="accyearMg">Accounting<br/>Year</button></div>                   -->
+                  </div>
+                </div>
+
+                
+               
+                <!-- /. ROW  -->
+				
+            </div>
+            <!-- /. PAGE INNER  -->
+        </div>
+        <!-- /. PAGE WRAPPER  -->
+    </div>
+    <!-- /. WRAPPER  -->
+    
+    <!-- Button trigger modal -->
+
+
+<!-- Modal -->
+
+<div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="col-sm-8"><h4 class="modal-title" id="myModalTitle" style="padding: 6px;">Error</h4></div>
+                        <div class="col-sm-2" id="add-new-div">
+                            <!-- <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button> -->
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body" id="myModalBody" style="max-height: calc(100vh - 212px); overflow-y: auto;">
+                    <input class="form-control" id="filterInput" type="text" placeholder="Search..">
+                    <table class="table display table-responsive table-striped table-bordered table-hover dataTable no-footer" id="dataTables_table">
+                        
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="confirm-delete" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body" >
+                <span>Are you sure to delete ?</span> <br/>
+                <span>Once deleted it cannot be returned back.</span> 
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-danger" id="confirm-delete-user-ok">Confirm</button>
+                <button type="button" data-dismiss="modal" class="btn btn-danger" id="confirm-delete-dp-ok">Confirm</button>
+                <!-- $('#confirm-delete-user-ok').hide();
+                $('#confirm-delete-dp-ok').attr('data-uid', id); -->
+                <button type="button" data-dismiss="modal" class="btn">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="confirm-status" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body" >
+                <span>Are you sure to change the status ?</span> <br/>
+                <span>Once changed it cannot be changed back.</span> 
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-danger" id="confirm-status-ok">Change Status</button>
+                <button type="button" data-dismiss="modal" class="btn">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="titleM" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body" >
+                <!-- <h1>WE ARE COMMING SOON</h1> -->
+
+                
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-danger" id="confirm-status-ok">Change Status</button>
+                <button type="button" data-dismiss="modal" class="btn">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal fade" id="printAck" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Print Acknowledgement</h4>
+            </div>
+            <div class="modal-body" >
+                <div class="row">
+                    <div class="col-md-12">
+                        <form id="ackForm" id="ackForm" method="post">
+                            <div class="form-group">
+                                <label for="don_id_search">Donation Id:</label>
+                                <input type="don_id_search" class="form-control" id="don_id_search">
+                            </div>
+                            <div class="form-group">
+                                <label for="print_body">Print Body</label>
+                                    <!-- <textarea id="emailbody" class="ckeditor" name="emailbody" placeholder="Write something.." style="height:128px; resize: none;"></textarea> -->
+                                    <!-- <textarea id="emailbody" name="emailbody" placeholder="Write something.." style="height:128px; resize: none;"></textarea> -->
+                            </div>
+                            <textarea id="print_body" name="print_body" placeholder="Write something.." style="width: 100%; height:250px; resize: none; overflow-y: scroll;"></textarea>
+                        </form>
+                    </div>
+                </div>               
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-primary" id="confirm-print_envelope">Print Envelope</button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary" id="confirm-print_letter">Print Letter</button>
+                <button type="button" data-dismiss="modal" class="btn">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="registerModal" role="dialog">
+        <div class="modal-dialog modal-sm">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Register User</h4>
+            </div>
+            <div class="modal-body">
+              <form id="registerForm">
+                <div class="form-group">
+                  <input type="text" class="form-control"  id="name1" name="name" value="Full Name" onBlur="if(this.value == '') this.value = 'Full Name'" onFocus="if(this.value == 'Full Name') this.value = ''" required>
+                </div> 
+                <div class="form-group">
+                  <input type="text" class="form-control"  id="username1" name="username" value="Username" onBlur="if(this.value == '') this.value = 'Username'" onFocus="if(this.value == 'Username') this.value = ''" required>
+                </div> 
+                <div class="form-group">
+                  <input type="email" class="form-control" id="email1" name="email"  value="Email" onBlur="if(this.value == '') this.value = 'Email'" onFocus="if(this.value == 'Email') this.value = ''" required>
+                </div> 
+                <div class="form-group">
+                  <!-- <input type="password" class="form-control" id="pass" name="pass"  value="Password" onBlur="if(this.value == '') this.value = 'Password'" onFocus="if(this.value == 'Password') this.value = ''" required> -->
+                  <input type="text" class="form-control"  id="pass1" name="pass" value="Password" placeholder="Password" onBlur="if(this.value == ''){ this.type = 'password'}" onFocus="if(this.value == 'Password'){ this.value = ''; this.type = 'password';}" required>
+                </div> 
+                <div class="form-group">
+                  <!-- <input type="password" class="form-control" id="repass" name="repass"  value="Password" onBlur="if(this.value == '') this.value = 'Password'" onFocus="if(this.value == 'Password') this.value = ''" required> -->
+                  <input type="text" class="form-control"  id="repass1" name="repass" placeholder="Confirm Password" value="Confirm Password" onBlur="if(this.value == ''){ this.type = 'password'}" onFocus="if(this.value == 'Confirm Password'){ this.value = ''; this.type = 'password';}" required>
+                </div>
+                <div class="form-group">
+                  <select class="form-control" id="sec_quest1" name="sec_quest" >
+                    <option>What Is your favorite book?</option>
+                    <option>What is the name of the road you grew up on?
+                    <option>What is the name of the road you grew up on?
+                    <option>What is your mother’s maiden name?
+                    <option>What was the name of your first/current/favorite pet?
+                    <option>What was the first company that you worked for?
+                    <option>Where did you meet your spouse?
+                    <option>Where did you go to high school/college?
+                    <option>What is your favorite food?
+                    <option>What city were you born in?
+                    <option>Where is your favorite place to vacation?
+                  </select>
+                </div>
+                <div class="form-group">
+                  <!-- <input type="password" class="form-control" id="sec_ans" name="sec_ans"  value="Password" onBlur="if(this.value == '') this.value = 'Password'" onFocus="if(this.value == 'Password') this.value = ''" required> -->
+                  <input type="text" class="form-control"  id="sec_ans1" name="sec_ans" value="Secrect Answer" onBlur="if(this.value == '') this.value = 'Secrect Answer'" onFocus="if(this.value == 'Secrect Answer') this.value = ''" required>
+                </div>   
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" id="btnRegister">Register</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </form>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+       
+      
+    
+    <%- include('../partials/footer');%>
+<script>
+
+    CKEDITOR.editorConfig = function (config) {
+        config.language = 'es';
+        config.uiColor = '#F7B42C';
+        config.height = 500;
+        config.toolbarCanCollapse = true;
+        config.toolbar = [
+            ['Font','FontSize'],
+            ['Bold','Italic','Underline'],
+            ['TextColor','BGColor'],
+            ['JustifyLeft', 'JustifyCenter', 'JustifyRight']
+        ]
+            
+    };
+    CKEDITOR.replace('print_body', {
+        // filebrowserBrowseUrl: '/mail/browse',
+        // filebrowserUploadUrl: '/mail/uploadFile'
+    });
+
+    $(document).ready(function() {
+        
+        // $(document).on('click','#confirm-print_letter', function(e){
+        //     var receipt_id = $(this).data('doid');
+        //     var d_id = $(this).data('deid');
+        //     var paramString = '?devotee_id='+d_id+'&donation_id='+receipt_id;
+        //     var URL = window.location.hostname + ':' + window.location.port + '/dashboard/printLetter';
+        //     window.open('http://'+URL+paramString, 'height=900, width=700');
+        // });
+        $(document).on('click','#confirm-print_letter', function(e){
+            var receipt_id = $(this).data('uid');
+            // $('#save_recipt').hide(); 
+            // window.print();  print_ack
+            //var divContents = document.getElementById("donation_panel_confirm").innerHTML; 
+            var divContents = CKEDITOR.instances['print_body'].getData();;
+            var a = window.open('', '', 'height=900, width=700'); 
+            a.document.write('<html>'); 
+            a.document.write('<head><link href="/css/bootstrap.min.css" rel="stylesheet" /> </head>'); 
+            // a.document.write("<img src='/img/letter_small.jpg'/>"); 
+            a.document.write("<br/><br/><br/><br/><br/><br/><br/><br/>"); 
+            // a.document.write("<img src='/img/top_logo.png'/>"); 
+            // a.document.write('<body><h1 class="text-center" id="display_receipt_no">Receipt - E000'+receipt_id+'</h1>');
+                
+            a.document.write(divContents); 
+            // a.document.write("<img src='/img/top_logo.png'/>");
+            // a.document.write("<img src='/img/bot_tax.png'/>"); 
+            a.document.write('</body></html>'); 
+            // $('#save_recipt').show();
+            a.document.close(); 
+            a.print();
+        });
+        $(document).on('click','#confirm-print_envelope', function(e){
+            var receipt_id = $(this).data('doid');
+            var d_id = $(this).data('deid');
+            var paramString = '?devotee_id='+d_id+'&donation_id='+receipt_id;
+            var URL = window.location.hostname + ':' + window.location.port + '/dashboard/printEnvelope';
+            window.open('http://'+URL+paramString, 'height=900, width=700');
+        });
+        $(document).on('click','#printInLand', function(e){
+            // console.log('CLICKED');
+            var URL = window.location.hostname + ':' + window.location.port + '/dashboard/printInLand';
+            window.open('http://'+URL, 'height=900, width=700');
+        });
+        $(document).on('click','#printEmailList', function(e){
+            // console.log('CLICKED');
+            // var URL = window.location.hostname + ':' + window.location.port + '/dashboard/printEmailList';
+            // window.open('http://'+URL, 'height=900, width=700');
+            // var paramString = '?reportDateFrom='+reportDateFrom+'&reportDateTo='+reportDateTo;
+            var URL = window.location.hostname + ':' + window.location.port + '/dashboard/printEmailList';
+            window.open('http://'+URL, '_blank', 'height=900, width=450');
+        });
+
+        $(document).on('click', '.add-new', function(){
+            $(this).attr("disabled", "disabled");
+            var row = '<tr>';
+            row += '<td><input type="text" autofocus class="form-control" name="donation_purpose_name" id="donation_purpose_name"></td>';
+            row += '<td id="actionTD"><button type="button" class="btn btn-success btn-sm" id="adddpDetails" ><span class="glyphicon glyphicon-plus"></span></button>&nbsp;';
+            row += '<button type="button" class="btn btn-danger btn-sm" id="deleteRow" ><span class="glyphicon glyphicon-remove"></span></button></td>';
+            row += '</tr>';
+            $("#tableBody").prepend(row);
+        });
+        $(document).on('click', '.add-new-room', function(){
+            $(this).attr("disabled", "disabled");
+            var row = '<tr>';
+            row += '<td><input type="text" autofocus class="form-control" name="roomName" id="roomName"></td>';
+            row += '<td><input type="text" autofocus class="form-control" name="roomCapacity" id="roomCapacity"></td>';
+            row += '<td id="actionTD"><button type="button" class="btn btn-success btn-sm" id="adddRooms" ><span class="glyphicon glyphicon-plus"></span></button>&nbsp;';
+            row += '<button type="button" class="btn btn-danger btn-sm" id="deleteRow" ><span class="glyphicon glyphicon-remove"></span></button></td>';
+            row += '</tr>';
+            $("#tableBody").prepend(row);
+        });
+        // $(document).on('click', '.add-new-user', function(){
+        //     // $(this).attr("disabled", "disabled");
+        //     // $('#myModal').hide();
+        // });
+        $(document).on('blur', '#don_id_search', function(){
+            // $(this).attr("disabled", "disabled");
+            var printData = 'adaasda';
+            var donation_id = $('#don_id_search').val();
+            $.ajax({
+                type : 'POST',
+                url:'/donation/generateACK',
+                headers: {"x-access-token": localStorage.getItem('token')},
+                data : { donation_id : donation_id },
+                success : function(response){
+                    if(response.success==1 && response.failure==0){ 
+                        toastr.info(response.msg);
+                        // CKEDITOR.instances['print_body'].setData('');
+                        // printData = response.donation_details[0].donation_payment_details;
+                        printData = 'Sri Sri Ma &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Date : .........................<br/>';
+                        printData += response.dev_det[0].title+' '+response.dev_det[0].fName+` `+response.dev_det[0].lName+'<br/> ';  //response.pack[0].title
+                        printData += response.dev_det[0].address+'<br/><br/>';
+                        printData += 'Respected '+response.dev_det[0].title+` `+response.dev_det[0].lName+', ';
+                        printData += '<div style="text-align: justify; text-justify: inter-word;"><br/>&emsp;We thankfully acknowledge the receipt of your kind donation of Rs.'+response.don_det[0].donation_amount;
+                        printData += '/- towards '+response.don_det[0].donation_purpose+'. The amount was deposited to our S.B.I Rudranagar A/C : 11718455432 ';
+                        printData += 'by core banking service on '+moment(response.don_det[0].trans_date).format('DD.MM.YYYY')+' and it was credited in our account.';
+                        printData += '<br/>&emsp;Enclosed please find herewith our formal money receipt no : E000'+response.don_det[0].donation_id+' dt. - '+moment(response.don_det[0].donation_date).format('DD.MM.YYYY');
+                        printData += ' for your record.';
+                        printData += '<br/>&emsp;We pray to the Holy Trio for your well-being and hope such idea for helping others always glow in your heart forever.';
+                        printData += '<br/>&emsp;With regards and Namaskars, </div>';
+                        printData += '<br/>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Sincerely,<br/><br/>';
+                        printData += '&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;(Swami Stavapriyananda)<br/>';
+                        printData += '&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Secretary<br/>';
+                        printData += 'Encl:As stated above';
+                        //Letter 
+                        $('#confirm-print_letter').attr('data-deid',response.dev_det[0].devotee_id);
+                        $('#confirm-print_letter').attr('data-doid',response.don_det[0].donation_id);
+                        //Envelope
+                        $('#confirm-print_envelope').attr('data-deid',response.dev_det[0].devotee_id);
+                        $('#confirm-print_envelope').attr('data-doid',response.don_det[0].donation_id);
+                        CKEDITOR.instances['print_body'].setData(printData);
+
+                    }
+                    if(response.success==0 && response.failure==1){ 
+                        toastr.error(response.msg); 
+                        $(element).parents("tr").remove();
+                        // $(this).parents("tr").remove();
+                    }
+                },
+                failure : function(response){}
+            });
+        });
+
+        
+        //var element = this;
+        //$.ajax({
+            //...
+            //success: function(json) {
+                // `this` refers to the jQXHR object
+                // use `element` to refer to the DOM element
+                // or `$(element)` to refer to the jQuery object
+            //}
+        //});
+        $(document).on("click", "#adddpDetails", function(){
+            var element = this;
+            var empty = false;
+            var valueofField;
+            var input = $(this).parents("tr").find('input[type="text"]');
+            input.each(function(){
+                if(!$(this).val()){
+                    $(this).addClass("error");
+                    empty = true;
+                } else{
+                    $(this).removeClass("error");
+                }
+            });
+            $(this).parents("tr").find(".error").first().focus();
+            if(!empty){
+                var checkData;
+                input.each(function(){
+                    $(this).parent("td").html($(this).val().toUpperCase());
+                    $(this).parent("td").attr('id', 'newID');
+                    valueofField=$(this).val().toUpperCase();
+                    $.ajax({
+                        type : 'POST',
+                        url:'/donation/addDonationPurpose',
+                        headers: {"x-access-token": localStorage.getItem('token')},
+                        data : { dpname : valueofField },
+                        success : function(response){
+                            if(response.success==1 && response.failure==0){ 
+                                toastr.info(response.msg);
+                                $("#actionTD").html('');
+                                // $("#actionTD").html('<button type="button" class="btn btn-danger btn-sm deletedpDetails" data-uid="'+response.purpose_id+'" data-mid="0"><span class="glyphicon glyphicon-trash"></span></button>');
+                                var actionTDHTML = `<button type="button" class="btn btn-primary btn-sm editdpDetails" data-uid="`+response.sendParam.donation_purpose_id+`" data-mid="0"><span class="glyphicon glyphicon-pencil"></span></button>
+                                 &emsp;<button type='button' class='btn btn-danger btn-sm deletedpDetails' data-uid="`+response.sendParam.donation_purpose_id+`" data-mid="0" data-mdata="`+response.sendParam.donation_purpose_name+`" ><span class='glyphicon glyphicon-trash'></span></button></td>`;
+                                $("#actionTD").html(actionTDHTML);
+                            }
+                            if(response.success==0 && response.failure==1){ 
+                                toastr.error(response.msg); 
+                                $(element).parents("tr").remove();
+                                // $(this).parents("tr").remove();
+                            }
+                        },
+                        errror : function(response){},
+                    });
+                });		
+                	
+                // $(this).parents("tr").remove();
+                
+                $(".add-new").removeAttr("disabled");
+            }
+        });
+
+        $(document).on("click", "#deleteRow", function(){
+            $(this).parents("tr").remove();
+            $(".add-new").removeAttr("disabled");
+        });
+
+        $(document).on("click", ".deletedpDetails", function(){
+            var el = this;
+            var id = $(this).data('uid');
+            var mid = $(this).data('mid');
+            var mdata = $(this).data('mdata');
+            $('#confirm-delete').modal('show');
+            $('#confirm-delete-user-ok').hide();
+            $('#confirm-delete-dp-ok').attr('data-uid', id);
+            $('#confirm-delete-dp-ok').attr('data-mid', mid);
+            $('#confirm-delete-dp-ok').attr('data-mdata', mdata);
+            // $('#confirm-delete-dp-ok').attr('data-el', el);
+        });
+
+        $(document).on("click", "#confirm-delete-dp-ok", function(){
+            // var el = this;
+            // var el = $(this).data('el');
+            var delid = $(this).data('uid');
+            var mid = $(this).data('mid');
+            var mdata = $(this).data('mdata');
+            console.log(mdata + " " + mid + " " + delid);
+            if(mid==1){
+                toastr.error('COMPULSORY PURPOSE. <br/> PURPOSE CANNOT BE DELETED.');
+                $(".add-new").removeAttr("disabled");
+            }else{
+                $(".add-new").attr("disabled", "disabled");
+                $.ajax({
+                    type : 'POST',
+                    url:'/donation/delDonationPurpose',
+                    headers: {"x-access-token": localStorage.getItem('token')},
+                    data : { delid : delid, mid : mid, mdata : mdata },
+                    success : function(response){
+                        if(response.success==1 && response.failure==0){ 
+                            toastr.info(response.msg);
+                            // Remove row from HTML Table
+                            // $(el).closest('tr').css('background','tomato');
+                            // $(el).closest('tr').fadeOut(800,function(){
+                            //     $(this).remove();
+                            // });
+                            $(".add-new").removeAttr("disabled");
+                            location.reload();
+                        }
+                        if(response.success==0 && response.failure==1){ 
+                            toastr.error(response.msg); 
+                        }
+                    },
+                    errror : function(response){},
+                });
+            }
+        });
+
+        
+        $(document).on("click", ".deleteUser", function(){
+            var id = $(this).data('uid');
+            // var don_val = $(this).val();
+            $('#confirm-delete').modal('show');
+            $('#confirm-delete-dp-ok').hide();
+            $('#confirm-delete-user-ok').attr('data-uid', id);
+        });
+
+        $(document).on("click", "#confirm-delete-user-ok", function(){
+            var element = this;
+            var delid = $(this).data('uid');
+            $(".add-new").attr("disabled", "disabled");
+            $.ajax({
+                type : 'POST',
+                url:'/users/deleteUser',
+                headers: {"x-access-token": localStorage.getItem('token')},
+                data : { delid : delid },
+                success : function(response){
+                    if(response.success==1 && response.failure==0){ 
+                        toastr.info(response.msg);
+                        $(element).parents("tr").remove();
+                        // $(this).parents("tr").remove();
+                        $(".add-new").removeAttr("disabled");
+                    }
+                    if(response.success==0 && response.failure==1){ 
+                        toastr.error(response.msg); 
+                    }
+                },
+                errror : function(response){},
+            });
+        });
+
+        
+        $(document).on("click", "#adddRooms", function(){
+            var element = this;
+            var empty = false;
+            var valueofField;
+            var input = $(this).parents("tr").find('input[type="text"]');
+            input.each(function(){
+                if(!$(this).val()){
+                    $(this).addClass("error");
+                    empty = true;
+                } else{
+                    $(this).removeClass("error");
+                }
+            });
+            $(this).parents("tr").find(".error").first().focus();
+            if(!empty){
+                var checkData;
+                var valueofField = [];
+                input.each(function(){
+                    $(this).parent("td").html($(this).val().toUpperCase());
+                    $(this).parent("td").attr('id', 'newroomID');
+                    valueofField.push($(this).val().toUpperCase());
+                });	
+                // $(this).parents("tr").remove();
+                $.ajax({
+                        type : 'POST',
+                        url:'/roombook/addRooms',
+                        headers: {"x-access-token": localStorage.getItem('token')},
+                        data : { roomName : valueofField[0], roomCapacity : valueofField[1] },
+                        success : function(response){
+                            if(response.success==1 && response.failure==0){ 
+                                toastr.info(response.msg);
+                                $("#actionTD").html('');
+                                var actionTDHTML = '<button type="button" class="btn btn-primary btn-sm editRoom" data-uid="'+response.room_id+'" data-mid="0"><span class="glyphicon glyphicon-pencil"></span></button>';
+                                $("#actionTD").html(actionTDHTML);
+                                $(".add-new").removeAttr("disabled");
+                            }
+                            if(response.success==0 && response.failure==1){ 
+                                toastr.error(response.msg); 
+                                $(element).parents("tr").remove();
+                                $(".add-new").removeAttr("disabled");
+                                // $(this).parents("tr").remove();
+                            }
+                        },
+                        errror : function(response){},
+                    });
+                $(".add-new").removeAttr("disabled");
+            }
+        });
+
+        // Edit row on edit button click
+        $(document).on("click", ".editRoom", function(){
+            var roomID = $(this).data( "uid");
+            if($(this).find( "span" ).hasClass("glyphicon glyphicon-pencil")){
+                $(this).find( "span" ).removeClass( "glyphicon glyphicon-pencil");
+                $(this).find( "span" ).addClass( "glyphicon glyphicon-ok");	
+                $(this).attr( "data-aid",1);
+                var fieldnumber = 0;
+                $(this).parents("tr").find("td:not(:last-child)").each(function(){
+                    $(this).html('<input type="text" class="form-control" id="'+ fieldnumber+'" value="' + $(this).text() + '">');
+                    fieldnumber++;
+                });		
+                //$(this).parents("tr").find(".add, .edit").toggle();
+                $(".add-new").attr("disabled", "disabled");
+            }else{
+                //toastr.info('THERE IS THE POINT');
+                $(this).find( "span" ).removeClass( "glyphicon glyphicon-ok");
+                $(this).find( "span" ).addClass( "glyphicon glyphicon-pencil");
+                var element = this;
+                var empty = false;
+                var valueofField;
+                var input = $(this).parents("tr").find('input[type="text"]');
+                input.each(function(){
+                    if(!$(this).val()){
+                        $(this).addClass("error");
+                        empty = true;
+                    } else{
+                        $(this).removeClass("error");
+                    }
+                });
+                $(this).parents("tr").find(".error").first().focus();
+                if(!empty){
+                    var checkData;
+                    var valueofField = [];
+                    input.each(function(){
+                        $(this).parent("td").html($(this).val().toUpperCase());
+                        $(this).parent("td").attr('id', 'newroomID');
+                        valueofField.push($(this).val().toUpperCase());
+                    });	
+                    // $(this).parents("tr").remove();
+                    $.ajax({
+                            type : 'POST',
+                            url:'/roombook/updateRooms',
+                            headers: {"x-access-token": localStorage.getItem('token')},
+                            data : { roomName : valueofField[0], roomCapacity : valueofField[1], roomId : roomID },
+                            success : function(response){
+                                if(response.success==1 && response.failure==0){ 
+                                    toastr.info(response.msg);
+                                    $("#actionTD").html('');
+                                    var actionTDHTML = '<button type="button" class="btn btn-primary btn-sm editRoom" data-uid="'+response.room_id+'" data-mid="0"><span class="glyphicon glyphicon-pencil"></span></button>';
+                                    $("#actionTD").html(actionTDHTML);
+                                    $(".add-new").removeAttr("disabled");
+                                }
+                                if(response.success==0 && response.failure==1){ 
+                                    toastr.error(response.msg); 
+                                    // $(element).parents("tr").remove();
+                                    $(".add-new").removeAttr("disabled");
+                                    // $(this).parents("tr").remove();
+                                }
+                            },
+                            errror : function(response){},
+                        });
+                    $(".add-new").removeAttr("disabled");
+                }
+            }
+        });
+
+        //Edit Donation Purpose
+        $(document).on("click", ".editdpDetails", function(){
+            var eId = $(this).data( "uid");
+            if($(this).find( "span" ).hasClass("glyphicon glyphicon-pencil")){
+                $(this).find( "span" ).removeClass( "glyphicon glyphicon-pencil");
+                $(this).find( "span" ).addClass( "glyphicon glyphicon-ok");	
+                $(this).attr( "data-aid",1);
+                var fieldnumber = 0;
+                $(this).parents("tr").find("td:not(:last-child)").each(function(){
+                    $(this).html('<input type="text" class="form-control" id="'+ fieldnumber+'" value="' + $(this).text() + '">');
+                    fieldnumber++;
+                });		
+                //$(this).parents("tr").find(".add, .edit").toggle();
+                $(".add-new").attr("disabled", "disabled");
+            }else{
+                //toastr.info('THERE IS THE POINT');
+                $(this).find( "span" ).removeClass( "glyphicon glyphicon-ok");
+                $(this).find( "span" ).addClass( "glyphicon glyphicon-pencil");
+                var element = this;
+                var empty = false;
+                var valueofField;
+                var input = $(this).parents("tr").find('input[type="text"]');
+                input.each(function(){
+                    if(!$(this).val()){
+                        $(this).addClass("error");
+                        empty = true;
+                    } else{
+                        $(this).removeClass("error");
+                    }
+                });
+                $(this).parents("tr").find(".error").first().focus();
+                if(!empty){
+                    var checkData;
+                    var valueofField = [];
+                    input.each(function(){
+                        $(this).parent("td").html($(this).val().toUpperCase());
+                        // $(this).parent("td").attr('id', 'newroomID');
+                        valueofField.push($(this).val().toUpperCase());
+                    });	
+                    // $(this).parents("tr").remove();
+                    $.ajax({
+                            type : 'POST',
+                            url:'/donation/updateDonationPurpose',
+                            headers: {"x-access-token": localStorage.getItem('token')},
+                            data : { newdpName : valueofField[0], eId : eId },
+                            success : function(response){
+                                if(response.success==1 && response.failure==0){ 
+                                    toastr.info(response.msg);
+                                    $("#actionTD").html('');
+                                    var actionTDHTML = '<button type="button" class="btn btn-primary btn-sm editdpDetails" data-uid="'+response.donation_purpose_id+'" data-mid="0"><span class="glyphicon glyphicon-pencil"></span></button>';
+                                    // tbody += "<td colspan='2'><button type='button' class='btn btn-primary btn-sm editdpDetails' data-uid='"+response.donations_purposes[key].donation_purpose_id+"' ><span class='glyphicon glyphicon-pencil'></span></button>";
+                                    actionTDHTML += "&emsp;<button type='button' class='btn btn-danger btn-sm deletedpDetails' data-uid='"+response.donations_purposes.donation_purpose_id+"' data-mid='"+response.donations_purposes.must_field+"' data-mdata='"+response.donations_purposes[0].donation_purpose_name+"'><span class='glyphicon glyphicon-trash'></span></button></td>";
+                                    $("#actionTD").html(actionTDHTML);
+                                    $(".add-new").removeAttr("disabled");
+                                }
+                                if(response.success==0 && response.failure==1){ 
+                                    toastr.error(response.msg); 
+                                    $(element).parents("tr").remove();
+                                    $(".add-new").removeAttr("disabled");
+                                    // $(this).parents("tr").remove();
+                                }
+                            },
+                            errror : function(response){},
+                        });
+                    $(".add-new").removeAttr("disabled");
+                }
+            }
+        });
+
+        $(document).on('click', '.resetPass', function(e){
+            var id=$(this).data('uid');
+            console.log(id);
+            $.ajax({
+                type : 'POST',
+                url:'/users/resetPass',
+                headers: {"x-access-token": localStorage.getItem('token')},
+                data : { userid : id},
+                success : function(response){
+                    if(response.success == 1 && response.failure == 0){ toastr.info(response.msg) }
+                    if(response.success == 0 && response.failure == 1){ toastr.error(response.msg)}
+                }
+            });
+        });
+
+        $(document).on('click', '.verifyUser', function(e){
+            var id=$(this).data('uid');
+            console.log(id);
+            $.ajax({
+                type : 'POST',
+                url:'/users/verifyUser',
+                headers: {"x-access-token": localStorage.getItem('token')},
+                data : { userid : id},
+                success : function(response){
+                    if(response.success == 1 && response.failure == 0){ toastr.info(response.msg); setTimeout(location.reload.bind(location), 2000);  }
+                    if(response.success == 0 && response.failure == 1){ toastr.error(response.msg)}
+                }
+            });
+        });
+
+        $("#filterInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#tableBody tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+
+        $(document).on('click', '#users_Modal', ()=>{
+            var modalTitle, tbody;
+            $.ajax({
+                type : 'POST',
+                url:'/users/selectAllUser',
+                headers: {"x-access-token": localStorage.getItem('token')},
+                success : function(response){
+                    $('#dataTables_table').html('');
+                    modalTitle = '<strong>Users</strong>';
+                    $('#add-new-div').html('<a data-toggle="modal" href="#registerModal" class="btn btn-info"><i class="fa fa-plus"></i>&nbsp;Create User</a>');
+                    // $('#add-new-div').html('<button type="button" class="btn btn-info add-new-user"><i class="fa fa-plus"></i> Add New User</button>');
+                    $('#myModalTitle').html(modalTitle);
+                    if(response.success == 1 && response.failure == 0){
+                        // tbody += '<thead><th>Users Type</th><th>Name</th><th>Username</th><th>Action</th></thead>';
+                        tbody += '<thead><th>Name</th><th>Username</th><th>Action</th></thead>';
+                        $.each(response.userDetails, function (key, value){
+                            if(response.userDetails[key].usertype == 1){
+                                tbody += "<tbody id='tableBody'><tr>";
+                                // tbody += "<td>"+response.userDetails[key].usertype+"</td>";
+                                tbody += "<td>"+response.userDetails[key].name+"</td>";
+                                tbody += "<td>"+response.userDetails[key].username+"</td>";
+                                if(localStorage.getItem('loggedInName') == response.userDetails[key].name){
+                                    tbody += "<td><button type='button' class='btn btn-primary btn-sm resetPass' data-uid='"+response.userDetails[key].id+"' data-toggle='tooltip' title='Reset Pass' ><span class='glyphicon glyphicon-asterisk'></span></button> &nbsp;";
+                                }else{
+                                    tbody += "<td><button type='button' class='btn btn-primary btn-sm resetPass' data-uid='"+response.userDetails[key].id+"' data-toggle='tooltip' title='Reset Pass' ><span class='glyphicon glyphicon-asterisk'></span></button> &nbsp;";
+                                    tbody += "<button type='button' class='btn btn-danger btn-sm deleteUser' data-uid='"+response.userDetails[key].id+"' data-toggle='tooltip' title='Delete User' ><span class='glyphicon glyphicon-trash'></span></button></td>";
+                                }
+                                
+                                tbody += "</tr></tbody>";
+                            }else{
+                                // tbody += "<tbody id='tableBody'><tr>";
+                                // tbody += "<td>"+response.userDetails[key].usertype+"</td>";
+                                // tbody += "<td>"+response.userDetails[key].name+"</td>";
+                                // tbody += "<td>"+response.userDetails[key].username+"</td>";
+                                // tbody += "<td>ADMIN ONLY</td>";
+                                // tbody += "</tr></tbody>";
+                                tbody += "<tbody id='tableBody'><tr id='nvfu' style='background-color:#3321af; color:#FFFF99'>";
+                                // tbody += "<td>"+response.userDetails[key].usertype+"</td>";
+                                tbody += "<td>"+response.userDetails[key].name+"</td>";
+                                tbody += "<td>"+response.userDetails[key].username+"</td>";
+                                if(localStorage.getItem('loggedInName') == response.userDetails[key].name){
+                                    tbody += "<td><button type='button' class='btn btn-primary btn-sm resetPass' data-uid='"+response.userDetails[key].id+"' data-toggle='tooltip' title='Reset Pass' ><span class='glyphicon glyphicon-asterisk'></span></button> &nbsp;";
+                                }else{
+                                    tbody += "<td><button type='button' class='btn btn-success btn-sm verifyUser' data-uid='"+response.userDetails[key].id+"' data-toggle='tooltip' title='Verify User' ><span class='glyphicon glyphicon-asterisk'></span></button> &nbsp;";
+                                    tbody += "<button type='button' class='btn btn-primary btn-sm resetPass' data-uid='"+response.userDetails[key].id+"' data-toggle='tooltip' title='Reset Pass' ><span class='glyphicon glyphicon-asterisk'></span></button> &nbsp;";
+                                    tbody += "<button type='button' class='btn btn-danger btn-sm deleteUser' data-uid='"+response.userDetails[key].id+"' data-toggle='tooltip' title='Delete User' ><span class='glyphicon glyphicon-trash'></span></button></td>";
+                                }
+                                
+                                tbody += "</tr></tbody>";
+                            }
+                        });
+                        $('#dataTables_table').append(tbody);
+                        //$('#dataTables_table').dataTable({ordering: true});
+                        // $('#myModalBody').html(modalBody);
+                        
+                        $('#myModal').modal('show');
+                    }
+                }
+            });
+        });
+
+        $(document).on('click', '#btnRegister', function(e){
+            var name = $('#name1').val();
+            var username = $('#username1').val();
+            var email = $('#email1').val();
+            var pass = $('#pass1').val();
+            var repass = $('#repass1').val();
+            var sec_ques = $('#sec_quest1').val();
+            var sec_ans = $('#sec_ans1').val();
+            // $target = $(e.target);
+            // const id = $target.attr('data-id');
+            var usertoken;
+            if( name !="Full Name" && username != "Username" && email != "Email" && pass != "" && repass != "" && sec_ques != "" && sec_ans != "Secrect Answer"){
+            // console.log(sec_ans);
+            // console.log(pass);
+            // console.log(repass);
+            if( pass === repass){
+                $.ajax({
+                    type : 'POST',
+                    url : 'users/register',
+                    data : {
+                        name : name,
+                        email : email,
+                        username : username,
+                        pass : pass,
+                        repass : repass,
+                        sec_ques : sec_ques,
+                        sec_ans : sec_ans
+                    },
+                    success : function(response){
+                    if(response.success == 1 && response.failure == 0){
+                        // usertoken = response.token;
+                        // if (typeof(Storage) !== "undefined")localStorage.setItem('token',usertoken);
+                        toastr.success(response.msg);
+                        // setTimeout(function(){
+                        // //give a loader
+                        // window.location = '/dashboard'
+                        // }, 3000);
+                    }
+                    if(response.success == 0 && response.failure == 1){
+                        if(response.errorData == true){
+                            $.each(response.errors, function(i, item) {
+                            toastr.error(response.errors[i].msg);// alert(data[i].PageName);
+                            });
+                        }else{
+                            toastr.error(response.msg);
+                        }
+                    }
+                    }
+                });
+            }else{
+                toastr.error('PASSWORD MISMATCH');
+            }
+            
+            }else{
+            toastr.error('EMPTY FIELDS');
+            }
+        });
+
+        $(document).on('click', '#room_Modal', ()=>{
+            var modalTitle, tbody;
+            $.ajax({
+                type : 'POST',
+                url:'/roombook/getRooms',
+                headers: {"x-access-token": localStorage.getItem('token')},
+                success : function(response){
+                    $('#dataTables_table').html('');
+                    $('#add-new-div').html('<button type="button" class="btn btn-info add-new-room"><i class="fa fa-plus"></i> Add New</button>');
+                    modalTitle = '<strong>Rooms</strong>';
+                    $('#myModalTitle').html(modalTitle);
+                    if(response.success == 1 && response.failure == 0){
+                        tbody += '<thead><th>Rooms Name</th><th>Rooms Capacity</th><th>Action</th></thead>';
+                        $.each(response.rooms, function (key, value){
+                            tbody += "<tbody id='tableBody'><tr>";
+                            tbody += "<td>"+response.rooms[key].roomName+"</td>";
+                            tbody += "<td>"+response.rooms[key].roomCapacity+"</td>";
+                            tbody += "<td><button type='button' class='btn btn-primary btn-sm editRoom' data-uid='"+response.rooms[key].room_id+"' ><span class='glyphicon glyphicon-pencil'></span></button></td>";
+                            tbody += "</tr></tbody>";
+                        });
+                        $('#dataTables_table').append(tbody);
+                        //$('#dataTables_table').dataTable({ordering: true});
+                        // $('#myModalBody').html(modalBody);
+                        
+                        $('#myModal').modal('show');
+                    }
+                }
+            });
+        });
+
+
+        $(document).on('click', '#dp_Modal', ()=>{
+            var modalTitle, tbody;
+            
+            $.ajax({
+                type : 'POST',
+                url:'/donation/getDonationPurpose',
+                headers: {"x-access-token": localStorage.getItem('token')},
+                success : function(response){
+                    modalTitle = '<strong>Donation Purposes</strong>';
+                    $('#myModalTitle').html(modalTitle);
+                    $('#add-new-div').html('<button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>');
+                    $('#dataTables_table').html('');
+                    if(response.success == 1 && response.failure == 0){
+                        tbody += '<thead><th>Donaton Purposes</th><th>Action</th></thead>';
+                        // tbody += '<thead><th>Donaton Purposes</th></thead>';
+                        $.each(response.donations_purposes, function (key, value){
+                            tbody += "<tbody id='tableBody'><tr>";
+                            tbody += "<td>"+response.donations_purposes[key].donation_purpose_name+"</td>";
+                            tbody += "<td colspan='2'><button type='button' class='btn btn-primary btn-sm editdpDetails' data-uid='"+response.donations_purposes[key].donation_purpose_id+"' ><span class='glyphicon glyphicon-pencil'></span></button>";
+                            tbody += "&emsp;<button type='button' class='btn btn-danger btn-sm deletedpDetails' data-uid='"+response.donations_purposes[key].donation_purpose_id+"' data-mid='"+response.donations_purposes[key].must_field+"' data-mdata='"+response.donations_purposes[key].donation_purpose_name+"'><span class='glyphicon glyphicon-trash'></span></button></td>";
+                            tbody += "</tr></tbody>";
+                        });
+                        $('#dataTables_table').append(tbody);
+                        //$('#dataTables_table').dataTable({ordering: true});
+                        // $('#myModalBody').html(modalBody);
+                        $('#myModal').modal('show');
+                    }
+                }
+            });
+        });
+
+        $(document).on('click', '#cd_Modal', ()=>{
+            var modalTitle, tbody;            
+            $.ajax({
+                type : 'POST',
+                url:'/donation/clearing',
+                headers: {"x-access-token": localStorage.getItem('token')},
+                success : function(response){
+                    modalTitle = '<strong>Cheque Draft Clearing</strong>';
+                    $('#myModalTitle').html(modalTitle);
+                    $('#add-new-div').html('');
+                    $('#dataTables_table').html('');
+                    if(response.success == 1 && response.failure == 0){
+                        tbody += '<thead><th>Date</th><th>Cheque/Draft Details</th><th>Amount</th><th>Staus</th><th>Action</th></thead>';
+                        $.each(response.donation_details, function (key, value){
+                            tbody += "<tbody id='tableBody'><tr>";
+                            var t = moment(response.donation_details[key].donation_date).format('DD-MM-YYYY');
+                            tbody += "<td>"+t+"</td>";
+                            tbody += "<td>"+response.donation_details[key].donation_payment_details+" ";
+                            tbody += "- "+response.donation_details[key].donation_payment_details_value+"</td>";
+                            tbody += "<td>"+response.donation_details[key].donation_amount+"/-</td>";
+                            tbody += "<td>"+response.donation_details[key].clearing_status+"</td>";
+                            // tbody += "<td><button type='button' class='btn btn-danger btn-sm deletedpDetails' data-uid='"+response.donations_purposes[key].donation_purpose_id+"' data-mid='"+response.donations_purposes[key].must_field+"' ><span class='glyphicon glyphicon-trash'></span></button></td>";
+                            tbody += "<td><select class='form-control changeAction' data-uid='"+response.donation_details[key].donation_id+"'><option value='FALSE'>OUTSTANDING</option><option VALUE='TRUE'>APPROVED</option></select></td>";
+                            tbody += "</tr></tbody>";
+                        });
+                        $('#dataTables_table').append(tbody);
+                        //$('#dataTables_table').dataTable({ordering: true});
+                        // $('#myModalBody').html(modalBody);
+                        $('#myModal').modal('show');
+                    }
+                }
+            });
+        });
+
+        // $(document).on('click', '#titleM', ()=>{
+        //     var modalTitle, tbody;
+        //     $.ajax({
+        //         type : 'POST',
+        //         url:'/roombook/getRooms',
+        //         headers: {"x-access-token": localStorage.getItem('token')},
+        //         success : function(response){
+        //             $('#dataTables_table').html('');
+        //             $('#add-new-div').html('<button type="button" class="btn btn-info add-new-room"><i class="fa fa-plus"></i> Add New</button>');
+        //             modalTitle = '<strong>Rooms</strong>';
+        //             $('#myModalTitle').html(modalTitle);
+        //             if(response.success == 1 && response.failure == 0){
+        //                 tbody += '<thead><th>Rooms Name</th><th>Rooms Capacity</th><th>Action</th></thead>';
+        //                 $.each(response.rooms, function (key, value){
+        //                     tbody += "<tbody id='tableBody'><tr>";
+        //                     tbody += "<td>"+response.rooms[key].roomName+"</td>";
+        //                     tbody += "<td>"+response.rooms[key].roomCapacity+"</td>";
+        //                     tbody += "<td><button type='button' class='btn btn-primary btn-sm editRoom' data-uid='"+response.rooms[key].room_id+"' ><span class='glyphicon glyphicon-pencil'></span></button></td>";
+        //                     tbody += "</tr></tbody>";
+        //                 });
+        //                 $('#dataTables_table').append(tbody);
+        //                 //$('#dataTables_table').dataTable({ordering: true});
+        //                 // $('#myModalBody').html(modalBody);
+                        
+        //                 $('#myModal').modal('show');
+        //             }
+        //         }
+        //     });
+        // });
+
+        /*Accounting Year Modal*/
+        // $(document).on('click', '#room_Modal', ()=>{
+        //     var modalTitle, tbody;
+        //     $.ajax({
+        //         type : 'POST',
+        //         url:'/roombook/getRooms',
+        //         headers: {"x-access-token": localStorage.getItem('token')},
+        //         success : function(response){
+        //             $('#dataTables_table').html('');
+        //             $('#add-new-div').html('<button type="button" class="btn btn-info add-new-room"><i class="fa fa-plus"></i> Add New</button>');
+        //             modalTitle = '<strong>Rooms</strong>';
+        //             $('#myModalTitle').html(modalTitle);
+        //             if(response.success == 1 && response.failure == 0){
+        //                 tbody += '<thead><th>Rooms Name</th><th>Rooms Capacity</th><th>Action</th></thead>';
+        //                 $.each(response.rooms, function (key, value){
+        //                     tbody += "<tbody id='tableBody'><tr>";
+        //                     tbody += "<td>"+response.rooms[key].roomName+"</td>";
+        //                     tbody += "<td>"+response.rooms[key].roomCapacity+"</td>";
+        //                     tbody += "<td><button type='button' class='btn btn-primary btn-sm editRoom' data-uid='"+response.rooms[key].room_id+"' ><span class='glyphicon glyphicon-pencil'></span></button></td>";
+        //                     tbody += "</tr></tbody>";
+        //                 });
+        //                 $('#dataTables_table').append(tbody);
+        //                 //$('#dataTables_table').dataTable({ordering: true});
+        //                 // $('#myModalBody').html(modalBody);
+                        
+        //                 $('#myModal').modal('show');
+        //             }
+        //         }
+        //     });
+        // });
+
+
+        $(document).on('change', '.changeAction', function() {
+            var don_id = $(this).data('uid');
+            var don_val = $(this).val();
+            $('#confirm-status').modal('show');
+            $('#confirm-status-ok').attr('data-uid', don_id);
+        });
+
+        // bootbox.confirm("Do you really want to delete record?", function(result) {});
+
+        $(document).on('click', '#confirm-status-ok', function() {
+            var don_id2 = $(this).data('uid');
+            $.ajax({
+                type : 'POST',
+                url:'/donation/cleared',
+                headers: {"x-access-token": localStorage.getItem('token')},
+                data : { don_id2 : don_id2 },
+                success : function(response){
+                    if(response.success == 1 && response.failure == 0){ toastr.info(response.msg) }
+                    if(response.success == 0 && response.failure == 1){ toastr.error(response.msg)}
+                }
+            });
+        });
+        
+
+        $(document).on('click', '#titles_Modal', ()=>{
+            $('#titleM').modal('show');
+        });
+        
+        $(document).on('click', '#printAck_Modal', ()=>{
+            $('#printAck').modal('show');
+        });
+        
+    // $(document).on('click','#save_recipt', function(e){
+    //         var receipt_id = $(this).data('uid');
+    //         //window.print();
+    //         var divContents = document.getElementById("viewDonationDetailsModalBody").innerHTML; 
+    //         var a = window.open('', '', 'height=500, width=500'); 
+    //         a.document.write('<html>'); 
+    //         a.document.write('<body ><h1>Primary Receipt<br>'); 
+    //         a.document.write(divContents); 
+    //         a.document.write('</body></html>'); 
+    //         a.document.close(); 
+    //         a.print();
+    //     });
+
+} );
+
+</script>
+    
