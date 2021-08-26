@@ -11,7 +11,7 @@ const config = require('./config');
 const { forwardAuthenticated } = require('./sessionValidator');
 
 const app = express(); 
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); 
@@ -27,6 +27,10 @@ app.use(session({
 app.get('/',forwardAuthenticated, (req,res)=>{
     //res.sendFile(path.join(__dirname + '/index.html'));
     res.render('pages/index');
+});
+app.get('/dashboard',forwardAuthenticated, (req,res)=>{
+    //res.sendFile(path.join(__dirname + '/index.html'));
+    res.render('pages/dashboard');
 });
 
 const server = app.listen(PORT, '0.0.0.0', ()=>{
